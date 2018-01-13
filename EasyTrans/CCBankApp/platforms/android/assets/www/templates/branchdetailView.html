@@ -1,0 +1,69 @@
+﻿<link href="css/accountstatement.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="branchdetailCtrl">
+    <ion-content class="padding">
+        <div class="fixed-top-home" ng-click="Back()">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="fixed-mid-home" style="margin-bottom:60px;">
+            <div ng-repeat="branchdetail in BranchList">
+                <div class="boxpanel" style="background-color:InfoBackground">
+                    <div >
+                        <div class="row">
+                            <i class="icon ion-home" >    </i>
+                            <p >&nbsp;&nbsp;&nbsp;Branch&nbsp;:</p>                            
+                        </div>
+                        <b>{{branchdetail.BranchName}}</b>
+                    </div>
+                    <div ng-click="launchNavigator(branchdetail.Latitude,branchdetail.Longitude)">
+                        <div class="row">
+                            <i class="icon ion-location">    </i>
+                            <p>&nbsp;&nbsp;&nbsp;Address&nbsp;:</p>                             
+                        </div>
+                        <div ng-repeat="add in branchdetail.Address">
+                            <b>{{add}}</b>
+                        </div>
+                    </div>
+                    <div >
+                        <div class="row">
+                            <i class="icon ion-android-phone-portrait" >    </i>
+                            <p>&nbsp;&nbsp;&nbsp;Phone&nbsp;:</p>
+                        </div>
+                        <b><a href="tel:{{branchdetail.PhoneNumber}}">{{branchdetail.PhoneNumber}}</a></b>                  
+                    </div>
+                    <div >
+                        <div class="row">
+                            <i class="icon ion-email">    </i>
+                            <p >&nbsp;&nbsp;&nbsp;Email&nbsp;:</p>
+                        </div>
+                        <b><a href="mailto:{{branchdetail.Email}}">{{branchdetail.Email}}</a></b>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item active" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+
+            </div>
+        </div>
+    </div>
+</ion-view>

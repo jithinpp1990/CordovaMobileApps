@@ -1,0 +1,228 @@
+html {
+    height: 100%;
+    background-color: #AB0A0A;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a {
+    color: #6A7475;
+    margin-bottom: 10px;
+    text-align: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+.outer-layout {
+    height: 100%;
+    margin: 0px;
+    /*background-color: #ffffff;*/
+    background-color: #ffffff;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    bot
+}
+
+.theme-black {
+   /*background-color: #ffffff;*/
+   background-color: #ffffff; 
+}
+.fixed-top-home {
+    position: relative;
+    width: 100%;
+    min-height: 60px;
+    background: #5d75e9; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left,#5d75e9, black); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right,#5d75e9, black); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right,#5d75e9, black); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #5d75e9 70%, black ); /* Standard syntax */
+}
+
+.title {
+    text-align: center;
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bolder;
+    padding-top: 10px;
+    width: 100%;
+    background-color: #5d75e9;
+    /* background-color: #5d75e9; */
+    display: block;
+    clear: both;
+    min-height: 47px;
+    border-radius: 5px;
+}
+
+.fixed-top {
+    position: relative;
+    top: 20px;
+    width: 100%;
+    min-height: 160px;
+    text-align: center;
+}
+
+.fixed-mid {
+    position: relative;
+    /* top: 20px; */
+    width: 100%;
+    text-align: center;
+    height: 65%;
+    margin-bottom: 10px;
+}
+
+.fixed-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+}
+.fixed-bottom-pre-login {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.input-pub {
+    border-radius: 0px;
+    border-width: 0px;
+    background-color: #011219;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+.img-header-home {
+    position: relative;
+    top: 0%;
+    left: 0px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 60px;
+    max-height: 60px;
+}
+
+.button-pub {
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #dcbff7;
+    background-color: #5d75e9;
+    color: white;
+    font-weight: 500;
+}
+
+.button-row {
+    border-radius: 8px;
+    border-width: 3px;
+    border-color: #dcbff7;
+    background-color: #5d75e9;
+    color: white;
+    font-weight: 500;
+    height:10px;
+}
+
+#user, #pwd {
+    color: #fff;
+    font-weight: normal;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/*.scroll-bar-indicator {
+    display: none;
+}*/
+
+/*.overflow-scroll {
+    overflow: hidden;
+}*/
+
+
+div.spinner {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 85px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.spinner svg {
+    width: 19% !important;
+    height: 85px !important;
+}
+
+.block {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: #000;
+    z-index: 999;
+    opacity: 0.2;
+}
+
+.spinner-android {
+    stroke: white;
+}
+.tabs-positive > .tabs{
+background-color: #5d75e9 !important;
+}
+
+
+
+
+/*---------------------------------------------------------------------*/
+ .contentstext{
+    margin-top:3px;
+    margin-bottom:3px;
+    height:70px;
+    background-color:inherit;
+}
+
+button.button-block, button.button-full, .button-full > button.button, input.button.button-block {
+    width: 100%;
+}
+
+.select-label {
+    text-align: left;
+    color: white;
+
+}
+.item-stacked-label {
+    display: block;
+    background-color:inherit;
+    box-shadow: none;
+    height:100%;
+}
+
+.item-input input, .item-input textarea {
+    color:blue;
+    width: 95%;
+    height:50%;
+    padding: 4px;
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+   /* border: 2px solid #387ef5; */
+    color: rgb(2, 59, 156);
+    width: 95%;   
+    padding: 5px;
+}
+
+.item-stacked-label .input-label, .item-stacked-label .icon {
+    display: block;
+    padding: 4px 0 0 0px;
+    vertical-align: middle;
+    color: black;
+    height: 25px;
+}
+

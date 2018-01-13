@@ -1,0 +1,92 @@
+﻿<link href="css/beneficiary.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="ownaccounttransferCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
+        </div>
+        <div class="row" style="margin:2px;padding:1px">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
+        <span>Intra-Bank Fund Transfer</span>
+        <div class="fixed-mid-home">
+            <div class="boxpanel">
+                <span class="input-label"> Select Your A/C : </span>
+                <select class="select-pub" ng-model="request.FromAccount" ng-options="o.Caption for o in FromAccounts"></select>
+
+                <span class="input-label"> Select Payee A/C : </span>
+                <select class="select-pub" ng-model="request.ToAccount" ng-options="o.BeneficiaryName+' - '+o.AccountNumber for o in ToAccounts"></select>
+
+                <div class="boxpanel" ng-show="request.ToAccount.AccountNumber> 0">
+                    <span>Beneficiary Details</span>
+                    <span>A/C No       : {{request.ToAccount.AccountNumber}}<br /></span>
+                    <span>A/C Type     : {{request.ToAccount.AccountType}} <br /></span>
+                    <span>Bank         : {{request.ToAccount.BankName}}<br /></span>
+                    <span>Branch       : {{request.ToAccount.BankBranch}}<br /></span>
+                    <span> Max Limit   : ₹ &nbsp; {{request.ToAccount.MaxLimit}}</span>
+                </div>
+
+                <span class="input-label"> Amount Rs. : </span>
+                <input class="input-pub" id="Amount" type="number" ng-model="request.Amount" />
+
+                <div class="row">
+                    <div style="margin-left:30px;font-size:20px;float:left">
+                        Use OTP :
+                        <input  class="input-pub" style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='OTP'" ng-true-value="'OTP'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+                    </div>
+                    <div style="margin-left:10px;font-size:20px;float:right">
+                        Use PIN :
+                        <input class="input-pub" style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='PIN'" ng-true-value="'PIN'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+                    </div>
+                </div>
+
+                <span class="input-label"> OTP/PIN : </span>
+                <input class="input-pub" id="otp" type="password" ng-model="request.OTP" />
+            </div>
+            <div>
+                <div class="row" ng-hide="IsSentOTP">
+                    <button class="button button-block button-pub" style="background-color:saddlebrown !important" ng-click="SendOTP()">Send OTP</button>
+                </div>
+                <div class="row" ng-show="IsSentOTP">
+                    <button class="button button-block button-row" style="background-color:saddlebrown !important" ng-hide="IsReSendOTP" ng-click="SendOTP()">Resend OTP</button>
+                    <button class="button button-block button-row" style="background-color:limegreen !important" ng-click="SubmitTransfer()">Pay</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+
+            </div>
+        </div>
+    </div>
+</ion-view>

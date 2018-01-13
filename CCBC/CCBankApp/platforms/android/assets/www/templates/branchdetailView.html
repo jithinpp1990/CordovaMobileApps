@@ -1,0 +1,77 @@
+﻿<link href="css/accountstatement.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="branchdetailCtrl">
+    <ion-content class="padding">
+        <div class="fixed-top-home" ng-click="Back()">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="fixed-mid" style="margin-bottom:60px;">
+            <div ng-repeat="branchdetail in BranchList">
+                <div class="list list-inset">
+                    <div class="item" style="background-color:#81aafe;color:white;border-style: inherit !important;">
+                        <div class="row">
+                            <i class="icon ion-home" style="color:white;">    </i>
+                            <p style="color:black;font-weight:500;font-size:16px">&nbsp;&nbsp;&nbsp;Branch&nbsp;:</p>                            
+                        </div>
+                        <h2><b style="color:white;">{{branchdetail.BranchName}}</b></h2>
+                    </div>
+                    <div class="item" style="background-color:#81aafe;color:white;border-style: inherit !important;" ng-click="launchNavigator(branchdetail.Latitude,branchdetail.Longitude)">
+                        <div class="row">
+                            <i class="icon ion-location" style="color:white;">    </i>
+                            <p style="color:black;font-weight:500;font-size:16px">&nbsp;&nbsp;&nbsp;Address&nbsp;:</p>                             
+                        </div>
+                        <div ng-repeat="add in branchdetail.Address">
+                            <p style="color:white;font-weight:900">{{add}}</p>
+                        </div>
+                    </div>
+                    <div class="item" style="background-color:#81aafe;color:white;border-style: inherit !important;">
+                        <div class="row">
+                            <i class="icon ion-android-phone-portrait" style="color:white;">    </i>
+                            <p style="color:black;font-weight:500;font-size:16px">&nbsp;&nbsp;&nbsp;Phone&nbsp;:</p>
+                        </div>
+                        <h2><b style="color:white;"><a style="color:white;" href="tel:{{branchdetail.PhoneNumber}}">{{branchdetail.PhoneNumber}}</a></b></h2>                       
+                    </div>
+                    <div class="item" style="background-color:#81aafe;color:white;border-style: inherit !important;">
+                        <div class="row">
+                            <i class="icon ion-email" style="color:white;">    </i>
+                            <p style="color:black;font-weight:500;font-size:16px">&nbsp;&nbsp;&nbsp;Email&nbsp;:</p>
+                        </div>
+                        <h2><b style="color:white;"><a style="color:white;" href="mailto:{{branchdetail.Email}}">{{branchdetail.Email}}</a></b></h2>                        
+                    </div>
+                    <!--<div class="item" style="background-color:#81aafe;color:white;border-style: inherit !important;">
+                        <div class="row">
+                            <i class="icon ion-person" style="color:white;">    </i>
+                            <p style="color:black;font-weight:500;font-size:16px">&nbsp;&nbsp;&nbsp;Manager:</p>
+                        </div>
+                        <h2> <b style="color:white;">{{branchdetail.Manager}}</b></h2>
+                        <h2><b style="color:white;"><a style="color:white;" href="tel:{{branchdetail.ManagerContact}}">{{branchdetail.ManagerContact}}</a></b></h2>                        
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item active" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+
+            </div>
+        </div>
+    </div>
+</ion-view>

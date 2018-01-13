@@ -1,0 +1,129 @@
+﻿<link href="css/accountstatement.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="addbeneficiaryCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <ion-content class="padding" style="margin-bottom:50px !important">
+        <div class="fixed-top-home" ng-click="Back()">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+
+        <div class="fixed-mid" style="margin-bottom: 50px;">
+            <div class="tabs-icon-top tabs-positive" style="background-color:#A0253A;">
+                <div class="tabs" style="position: inherit;">
+                    <a class="tab-item" ng-class="{'active': BeneficiaryType == 'WithInBank'}" ng-click="ChangeBeneficiaryType('WithInBank')" style="border-color:#A0253A;font-size:12px;">
+                        <i class="icon ion-home" style="color:white;"></i>
+                        Own Bank
+                    </a>
+                    <a class="tab-item" ng-class="{'active': BeneficiaryType == 'OtherBank'}" ng-click="ChangeBeneficiaryType('OtherBank')" style="border-color:#A0253A;font-size:12px;">
+                        <i class="icon ion-arrow-return-right " style="color:white;"></i>
+                        Other Bank
+                    </a>
+                </div>
+            </div>
+            <div class="list list-inset theme-black">
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Beneficiary name : </span>
+                    <input id="BeneficiaryName" ng-model="request.BeneficiaryName" type="text" placeholder="Beneficiary name">
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Account Number : </span>
+                    <input id="AccountNumber" ng-model="request.AccountNumber" type="text" placeholder="Account number">
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Confirm A/C Number : </span>
+                    <input id="ConfirmAccountNumber" ng-model="request.ConfirmAccountNumber" type="text" placeholder="Confirm Account number">
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Address Line 1 : </span>
+                    <input id="AddressLine1" ng-model="request.AddressLine1" type="text" placeholder="Address Line 1">
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Address Line 2 : </span>
+                    <input id="AddressLine2" ng-model="request.AddressLine2" type="text" placeholder="Address Line 2">
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Address Line 3 : </span>
+                    <input id="AddressLine3" ng-model="request.AddressLine3" type="text" placeholder="Address Line 3">
+                </label>
+                <div class="contentstext">
+                    Maximum Limit :
+                    <div class="range range-assertive">
+                        {{MinLimit}} <input type="range" min="100" max="100000" step="100" ng-model="request.MaxLimit">{{MaxLimit}}
+                    </div>
+                    {{request.MaxLimit}}
+                </div>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <input id="Maxlimit" value="{{request.MaxLimit}}" type="text" style="color:white;background-color:#011219;" placeholder="Maximum limit" readonly="readonly">
+                </label>
+                <div ng-show="BeneficiaryType == 'OtherBank'" style="margin-bottom:10px;">
+                    <div>
+                        <label class="item item-input item-stacked-label" style="text-align:left;">
+                            <span class="input-label"> IFSC </span>
+                            <input id="IFSC" ng-model="request.IFSC" type="text" placeholder="IFSC">
+                        </label>
+                        <button class="button button-small button-block button-pub" ng-click="ValidateIFSC()">
+                            Validate
+                        </button>
+                    </div>
+                    <div class="list list-inset" ng-show="request.BankName.length > 0">
+                        <div class="item" style="background-color:#A0253A;color:white !important;">
+                            <h2><b style="color:white;">{{request.BankName}}</b></h2>
+                            <p style="color:black;font-weight:100">Branch name</p>
+                        </div>
+                        <div class="item" style="background-color:#A0253A;color:white !important;">
+                            <h2><b style="color:white;">{{request.BankBranch}}</b></h2>
+                            <p style="color:black;font-weight:100">Branch name</p>
+                        </div>
+                    </div>
+                </div>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">OTP : </span>
+                    <input id="OTP" ng-model="request.OTP" type="text" placeholder="OTP" style="color:black">
+                </label>
+                <!--<label class="item item-input input-pub">
+                    <input id="OTP" ng-model="request.OTP" type="text" placeholder="OTP" style="color:white;">
+                </label>-->
+                <div class="row" ng-hide="IsSentOTP">
+                    <button class="button button-block button-pub" style="background-color:saddlebrown !important" ng-click="SendOTP()">Send OTP</button>
+                </div>
+                <div class="row" ng-show="IsSentOTP">
+                    <button class="button button-block button-pub" style="background-color:limegreen !important" ng-click="AddBeneficiary()">Add Beneficiary</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+            </div>
+        </div>
+</ion-view>

@@ -1,0 +1,33 @@
+﻿<link href="css/receipt.css" rel="stylesheet">
+<ion-view class="outer-layout">
+    <div class="receipt">
+        <div class="title">Receipt</div>
+
+        <div>
+            <span class="label">Participant ID:</span>
+            <span class="pid"><TMPL_VAR PARTICIPANT_ID></span><br>
+            <span class="label">Name:</span>
+            <span class="payee">
+                <TMPL_VAR FIRST_NAME>
+                    <TMPL_VAR LAST_NAME>
+            </span>
+            <span class="label">Date:</span>
+            <span class="date">&nbsp;</span>
+        </div>
+
+        <div>
+            <p>
+                I received
+                <span class="amount"><TMPL_VAR PAYMENT></span>
+                for participation in a decision&ndash;making experiment.
+            </p>
+        </div>
+
+        <div>
+            <span class="label">Signature:</span>
+            <span class="signature">&nbsp;</span>
+            <span class="label">Phone:</span>
+            <span class="phone">&nbsp;</span>
+        </div>
+
+    </div>

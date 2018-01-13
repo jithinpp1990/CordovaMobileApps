@@ -1,0 +1,52 @@
+﻿<link href="css/verifycustomer.css" rel="stylesheet" />
+<ion-view class="outer-layout" view-title="Login" name="login-view" ng-controller="verifyotpCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <ion-content class="padding">
+        <div class="fixed-top-home">
+            <div class="row">
+                <div class="fulllogo">
+                    <img class="img-header-home" src="img/Banner.png" />
+                </div>
+            </div>
+        </div>
+        <div class="fixed-mid-home">
+            <div class="list list-inset theme-black">
+                <div class="row">
+                    <div class="label-pub"><p>Enter OTP</p></div>
+                    <label class="item item-input input-pub">
+                        <input id="customerId" type="password" ng-model="request.OTP" />
+                    </label>
+                </div>
+                <div class="row">
+                    <button class="button button-block button-pub" ng-click="VerifyOTP()">Verify OTP</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item" ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item" ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+            </div>
+        </div>
+    </div>
+</ion-view>

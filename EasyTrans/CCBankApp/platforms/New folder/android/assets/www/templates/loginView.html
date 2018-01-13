@@ -1,0 +1,76 @@
+
+<link href="css/style.css" rel="stylesheet">
+<ion-view class="outer-layout" view-title="Login" name="login-view" ng-controller="loginCtrl" style="background-image:url(img/bmg2.png);background-repeat:repeat">
+
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <ion-content scroll="true" class="padding" style="margin-bottom:50px !important">
+
+        <div class="fixed-top">
+            <div class="row">
+                <img src="img/Logo.png" align="middle" />
+            </div>
+            <div>
+                <p class="title">Peoples Urban Co-operative Bank</p>
+            </div>
+        </div>
+
+        <div class="fixed-mid">
+            <div class="list list-inset theme-black">
+                <label class="item item-input input-pub">
+                    <input id="user" ng-model="model.username" type="text" placeholder="Username">
+                </label>
+                <label class="item item-input input-pub">
+                    <input id="pwd" type="password" ng-model="model.password" placeholder="Password">
+                </label>
+            </div>
+            <button class="button button-block button-pub" ng-click="Login()">Login</button>
+        </div>
+
+        <!--<ion-slide-box does-continue="true" auto-play="true" slide-interval="500" show-pager="true">
+            <ion-slide>
+                <div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Solid_blue.svg/2000px-Solid_blue.svg.png" />
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/ICS_Quebec.svg/2000px-ICS_Quebec.svg.png" />
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Red_flag.svg/2000px-Red_flag.svg.png" />
+                </div>
+            </ion-slide>
+        </ion-slide-box>-->
+
+    </ion-content>
+
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item active" ui-sref="prelogin" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+                <a class="tab-item" ui-sref="#" style="border-color:#5d75e9;">
+                    <i class="icon ion-help" style="color:white;"></i>
+                    Help
+                </a>
+            </div>
+        </div>
+    </div>
+
+</ion-view>

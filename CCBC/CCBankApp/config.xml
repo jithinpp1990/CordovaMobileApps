@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.ionicframework.ccbcapp" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" android-versionCode="1" defaultlocale="en-US">
+  <icon src="platforms/android/res/icon.png" platform="android" width="65" height="65" density="hdpi" />
+  <name>CC-BC</name>
+  <description>
+    An Ionic Framework and Cordova project.
+  </description>
+  <author email="you@example.com" href="http://example.com.com/">CC</author>
+  <content src="index.html" />
+  <preference name="webviewbounce" value="false" />
+  <preference name="UIWebViewBounce" value="false" />
+  <preference name="DisallowOverscroll" value="true" />
+  <preference name="BackupWebStorage" value="none" />
+  <feature name="StatusBar">
+    <param name="ios-package" onload="true" value="CDVStatusBar" />
+  </feature>
+  <preference name="KeepRunning" value="True" />
+  <preference name="ShowTitle" value="True" />
+  <preference name="InAppBrowserStorageEnabled" value="True" />
+  <preference name="SuppressesIncrementalRendering" value="True" />
+  <preference name="windows-target-version" value="10.0" />
+  <plugin name="cordova-plugin-device" spec="~1.1.1" />
+  <plugin name="cordova-plugin-console" spec="~1.0.2" />
+  <plugin name="cordova-plugin-whitelist" spec="~1.2.1" />
+  <plugin name="cordova-plugin-statusbar" spec="~2.1.0" />
+  <plugin name="ionic-plugin-keyboard" spec="~1.0.8" />
+  <preference name="android-maxSdkVersion" value="25" />
+  <preference name="android-targetSdkVersion" value="25" />
+  <preference name="android-minSdkVersion" value="14" />
+  <plugin name="cordova-plugin-crosswalk-certificate@2.0.0" src="https://github.com/danjarvis/cordova-plugin-crosswalk-certificate"/>
+  <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" version="3.1.1" src="https://github.com/dpa99c/phonegap-launch-navigator" />
+  <plugin name="cordovaBarcodeScanner" src="https://github.com/phonegap/phonegap-plugin-barcodescanner" />
+  <plugin name="cordovaPrinter" src="https://github.com/katzer/cordova-plugin-printer.git" />
+  <plugin name="cordova-plugin-actionsheet" version="2.2.2" />
+  <access origin="tel:*" launch-external="yes" />
+  <access origin="mailto:*" launch-external="yes" />
+  <plugin name="cordova-plugin-compat" version="1.0.0" />
+  <plugin name="cordova-plugin-file" version="4.2.0" />
+  <plugin name="cordova-plugin-file-transfer" version="1.5.1" />
+  <access origin="http://117.218.89.16:8080/api/*" />
+  <plugin name="phonegap-plugin-barcodescanner" version="6.0.5-dev" />
+  <plugin name="cordova-plugin-printer" version="0.7.3" />
+</widget>

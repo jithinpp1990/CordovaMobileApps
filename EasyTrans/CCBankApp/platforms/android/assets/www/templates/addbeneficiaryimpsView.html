@@ -1,0 +1,73 @@
+﻿<link href="css/beneficiary.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="addbeneficiaryCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
+        </div>
+        <div class="row" style="margin:2px;padding:1px">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
+        <div class="fixed-mid-home" ng-init="request.BeneficiaryType='Imps'">
+            <span>Add New IMPS Benificiary </span>
+            <div class="boxpanel">
+                <div>
+                    <span class="input-label">Beneficiary name : </span>
+                    <input class="input-pub" id="BeneficiaryName" ng-model="request.BeneficiaryName" type="text" placeholder="Beneficiary name">
+                </div>
+                <div>
+                    <span class="input-label">Beneficiary MMID : </span>
+                    <input class="input-pub" id="Mmid" ng-model="request.Mmid" type="text" placeholder="MMID">
+                </div>
+                <div>
+                    <span class="input-label">Confirm MMID : </span>
+                    <input class="input-pub" id="ConfirmMmid" ng-model="request.ConfirmMmid" type="text" placeholder="Confirm MMID">
+                </div>
+                <div>
+                    <span class="input-label">Mobile Number : </span>
+                    <input class="input-pub" id="MobileNumber" ng-model="request.MobileNumber" type="number" maxlength="10" placeholder="Mobile Number">
+                </div>
+                <div>
+                    <span class="input-label">Transfer Limit : </span>
+                    <input class="input-pub" id="MaxLimit" value="{{request.MaxLimit}}" ng-model="request.MaxLimit" type="number" placeholder="Confirm MMID">
+                </div>
+            </div>
+            <div class="row">
+                <button class="button button-block button-pub" style="background-color:limegreen !important" ng-click="SendOTP()">Submit</button>
+            </div>
+
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+            </div>
+        </div>
+</ion-view>

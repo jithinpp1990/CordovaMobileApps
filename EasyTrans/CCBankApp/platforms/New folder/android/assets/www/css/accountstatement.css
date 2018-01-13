@@ -1,0 +1,351 @@
+﻿.img-header-home {
+    position: relative;
+    top: 0%;
+    left: 0px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 60px;
+    max-height: 60px;
+}
+
+
+.userdet{
+     width: 100%;
+    max-height: 30px;
+     min-height: 30px;
+}
+.theme-black {
+    background-color: #ffffff;
+}
+
+.outer-layout {
+    height: 100%;
+    margin: 0px;
+    background-color: #ffffff;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.title {
+    text-align: center;
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    padding-top: 10px;
+    margin-left: 10px;
+    width: 100%;
+    background-color: #5d75e9;
+    display: block;
+    clear: both;
+    min-height: 47px;
+    background: linear-gradient(to right, #5d75e9, black 40%);
+}
+
+.fixed-top-home {
+    position: relative;
+    width: 100%;
+    min-height: 60px;
+    background: #5d75e9; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left,#5d75e9, black); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right,#5d75e9, black); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right,#5d75e9, black); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #5d75e9 30%, black 200% ); /* Standard syntax */
+}
+
+.fixed-mid-home {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    height: 100%;
+}
+
+
+.fixed-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+}
+
+.list-pub {
+    border: none;
+    background-color: #5d75e9;
+    padding-left: 10px;
+    height: 25px;
+}
+
+.list-shell {
+    background-color: #ffffff;
+    margin-left: 5px;
+    margin-right: 7px;
+}
+
+.button-pub {
+    border-radius: 5px;
+    border-width: 2px;
+    background-color: #0e8f11;
+    color: black;
+    font-weight: bold;
+    width:100%
+}
+
+
+    .button-pub:hover {
+        color: #fff;
+        opacity: 0.7;
+    }
+
+.button-row {
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: #dcbff7;
+    background-color: #0e8f11;
+    color: black;
+    font-weight: bold;
+    height:10px;
+}
+    .button-row:hover {
+        color: #fff;
+        opacity: 0.7;
+    }
+
+.label-pub {
+    font-family: Helvetica, Arial, sans-serif;
+    margin-left: 0px;
+    margin-right: 0px;
+    background-color: #5d75e9;
+    border-width: 1px;
+    border-radius: 1px;
+    border-color: #021E29;
+    color: white;
+    height: 33px;
+    min-width: 139px;
+    text-align: left;
+    padding-top: 5px;
+    padding-left: 10px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.input-pub {
+    border-radius: 0px;
+    border-width: 0px;
+    background-color: #011219;
+    margin-bottom: 10px;
+    color: white;
+    min-width: 190px;
+}
+
+.select-pub {
+    width: 95%;
+    color: #1e1e1e;
+    text-align: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    border: 2px solid #7589e8;
+    box-shadow: 5px 5px 5px grey;
+}
+
+.select-label {
+    text-align: left;
+    color: white;
+
+}
+
+
+.item-select select {
+    background-color: #011219;
+    color: white;
+}
+
+#   , #datepicker2 {
+    padding: 5px;
+    color: #023b9c;
+    width: 95%;
+    box-shadow: 5px 5px 5px grey;
+}
+/*.overflow-scroll {
+    overflow: hidden;
+}*/
+.accountsummary {
+    background-color: #5d75e9;
+    color: white;
+}
+
+
+
+div.spinner {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 85px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.spinner svg {
+    width: 19% !important;
+    height: 85px !important;
+}
+
+.block {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: #000;
+    z-index: 999;
+    opacity: 0.2;
+}
+
+.spinner-android {
+    stroke: white;
+}
+
+.wel-user {
+    margin-top: 0px;
+    margin-left: -5px;
+    text-align: left;
+    color: #0a0a0a;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    height: 20px;
+}
+
+.home-logout {
+    margin-top: -5px;
+    margin-right: -5px;
+    text-align: right;
+    height: 30px;
+}
+
+
+.header .col {
+    background-color: #5d75e9;
+    color: white;
+}
+
+.col {
+    /*border: solid 1px grey;*/
+    border-bottom-style: none;
+    border-right-style: none;
+}
+
+    .col:last-child {
+        border-right: solid 1px grey;
+    }
+
+.row:last-child .col {
+    border-bottom: solid 1px grey;
+}
+
+.accountDetails {
+    background-color: #5d75e9;
+    color: white !important;
+}
+
+.leftAlign {
+    text-align: left;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.tabs-positive > .tabs {
+    background-color: #5d75e9 !important;
+}
+
+.item-radio input:checked + .radio-content .item-content {
+    background: #5d75e9;
+    background-color: #5d75e9;
+}
+
+
+/* over ridden style of ionic*/
+
+.list {
+  position: relative;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 0;
+  margin-bottom: 4px; }
+
+.list:last-child {
+  margin-bottom: 0px; }
+  .list:last-child.card {
+    margin-bottom: 40px; }
+
+  .row1{
+    width: 100%;
+    max-height: 40px;
+    min-height: 40px;
+  }
+  .button.button-full {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+  a {
+  color: #387ef5; 
+  font-size: 14px;
+  font-weight: bold;
+}
+
+ /*---------------------------------------------------------------------*/
+ .contentstext{
+    margin-top:3px;
+    margin-bottom:3px;
+    height:70px;
+    background-color:inherit;
+}
+
+button.button-block, button.button-full, .button-full > button.button, input.button.button-block {
+    width: 95%;
+}
+
+.select-label {
+    text-align: left;
+    color: white;
+
+}
+.item-stacked-label {
+    display: block;
+    background-color:inherit;
+    box-shadow: none;
+    height:100%;
+}
+
+.item-input input, .item-input textarea {
+    color:blue;
+    width: 95%;
+    height:50%;
+    padding: 4px;
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    border: 2px solid #387ef5; /* Here */
+    color: rgb(2, 59, 156);
+    width: 95%;
+    box-shadow: grey 5px 5px 5px;
+    padding: 5px;
+}
+
+.item-stacked-label .input-label, .item-stacked-label .icon {
+    display: block;
+    padding: 4px 0 0 0px;
+    vertical-align: middle;
+    color: black;
+    height: 25px;
+}
+
+button.button-block, button.button-full, .button-full > button.button, input.button.button-block {
+    width: 100%;
+}

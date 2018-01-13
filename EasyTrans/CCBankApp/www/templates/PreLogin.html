@@ -1,0 +1,26 @@
+﻿<link href="css/style.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="preloginCtrl" style="background-image:url(img/bgmgif.gif);background-position:center;">
+    <ion-content scroll="false" class="padding">
+        <div class="fixed-top-home">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="fixed-mid-home" >
+           
+            <div style="max-height:500px;max-width:600px !important">
+                <ion-slide-box does-continue="true" auto-play="true" slide-interval="1500" show-pager="false" ng-if="ImageModelList.length">
+                    <ion-slide ng-repeat="imageModel in ImageModelList" ng-init="updateSlider()">
+                            <img id="{{imageModel.ImageName}}" ng-src="data:image/jpg;base64,{{imageModel.ImageByte}}">
+                    </ion-slide>
+                </ion-slide-box>
+                <br />
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixed-bottom-pre-login">     
+        <button class="button button-block button-pub" ng-click="Register()">Register</button>
+        <button class="button button-block button-pub" ng-click="Login()">Login</button>
+    </div>
+</ion-view>
+

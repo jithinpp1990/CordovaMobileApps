@@ -1,0 +1,130 @@
+﻿<link href="css/fundtransfer.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="eazytradeCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <ion-content class="padding" style="margin-bottom:50px !important">
+        <div class="fixed-top-home" ng-click="Back()">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+        <div class="fixed-mid" ng-model="request.Service='TI'">
+            <div class="list list-shell">
+                <div class="list ">
+                    <label class="item item-input item-stacked-label" style="text-align:left;">
+                        <span class="input-label">A/C From</span>
+                        <select class="select-pub" ng-model="request.FromAccount" ng-options="o.Caption for o in FromAccounts"></select>
+                    </label>
+                </div>
+                <div class="row">
+                    <div style="margin-left:30px;font-size:20px;float:left">
+                        Normal :
+                        <input style="width:20px;height:20px" type="checkbox" ng-checked="request.ReadMethod=='Q'" ng-true-value="'Q'" ng-model="request.ReadMethod" ng-change="SetReader()">
+                    </div>
+                    <div style="margin-left:10px;font-size:20px;float:right">
+                        QR Code :
+                        <input style="width:20px;height:20px" type="checkbox" ng-checked="request.ReadMethod=='N'" ng-true-value="'N'" ng-model="request.ReadMethod" ng-change="SetReader()">
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom:0px;">
+                <div  ng-hide="IsNormal">
+                    <label class="item item-input item-stacked-label" style="text-align:left;">
+                        <span class="input-label">Customer Card No : </span>
+                        <input id="TRCode" ng-model="request.TradeCode" type="text" placeholder="Customer Card No :">
+                    </label>
+                    <button class="button button-small button-block button-pub" ng-click="ValidateTRCode()">Validate</button>
+                </div>
+                <div ng-hide="IsQR">
+                    <label class="item item-input item-stacked-label" style="text-align:left;">
+                        <span class="input-label">Customer Card No : </span>
+                        <input id="TRCode" ng-model="request.TradeCode" type="text" placeholder="Read QR Customer Code">
+                    </label>
+                    <button class="button button-small button-block button-pub" ng-click="scanBarcode()">
+                        Read Card
+                    </button>
+                </div>               
+            </div>
+            <div class="list list-inset" ng-show="ShowTrader">
+                <div class="item" style="background-color:#fbf5f5;color:#710909 !important;">
+                    <p style="color:black;font-weight:100">Trader Name :</p>
+                    <h2><b style="color:#710909;">{{request.TraderName}}</b></h2>
+                    <p style="color:black;font-weight:100">Trader Det :</p>
+                    <h2><b style="color:#710909;">{{request.TraderAddress}}</b></h2>
+                </div>
+            </div>
+            <div class="contentstext">
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Reference No : </span>
+                    <input id="Amount" type="text" ng-model="request.RefNo" />
+                </label>
+            </div>
+            <div class="contentstext">
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Amount : </span>
+                    <input id="Amount" type="number" ng-model="request.Amount" />
+                </label>
+            </div>
+            <div class="row">
+                <div style="margin-left:30px;font-size:20px;float:left">
+                    Use OTP :
+                    <input style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='OTP'" ng-true-value="'OTP'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+                </div>
+                <div style="margin-left:10px;font-size:20px;float:right">
+                    Use PIN :
+                    <input style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='PIN'" ng-true-value="'PIN'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+                </div>
+            </div>
+            <div class="contentstext" ng-show="IsSentOTP">
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">OTP/PIN : </span>
+                    <input id="otp" type="password" ng-model="request.OTP" />
+                </label>
+            </div>
+            <div>
+                <div class="row" ng-hide="IsSentOTP">
+                    <button class="button button-block button-pub" style="background-color:saddlebrown !important" ng-click="SendOTP()">Send OTP</button>
+                </div>
+                <div class="row" ng-show="IsSentOTP">
+                    <button class="button button-block button-row" style="background-color:saddlebrown !important" ng-hide="IsReSendOTP" ng-click="SendOTP()">Resend OTP</button>
+                    <button class="button button-block button-row" style="background-color:limegreen !important" ng-click="SubmitTransfer()">Pay</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item" ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+
+            </div>
+        </div>
+    </div>
+</ion-view>

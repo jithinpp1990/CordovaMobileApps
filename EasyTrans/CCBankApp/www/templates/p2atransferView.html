@@ -1,0 +1,88 @@
+﻿<link href="css/beneficiary.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="impsfundtranferCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
+        </div>
+        <div class="row" style="margin:2px;padding:1px">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
+        <div class="fixed-mid-home" style="margin-bottom: 50px;" ng-init="request.Service='p2a'">
+            <span>IMPS-IFSC Fund Transfer</span>
+            <div class="boxpanel">
+                <div class="list list-shell">
+                    <div class="list ">
+                        <span class="input-label"> Select Your A/C : </span>
+                        <select class="select-pub" ng-model="request.SelectedFromAc" ng-options="o.Caption for o in FromAccounts track by o.Id"></select><br />
+                    </div>
+                </div>
+                <div class="list list-shell">
+                    <div class="list ">
+                        <span class="input-label"> Transfer Mode : </span>
+                        <select class="select-pub" ng-model="request.TransferMode" ng-options="o.Type for o in TransferModes track by o.Type"></select><br />
+                    </div>
+                </div>
+                <div class="list list-shell">
+                    <div class="list ">
+                        <span class="input-label"> Select Benificiary A/C : </span>
+                        <select class="select-pub" ng-model="request.SelectedBeneficiary" ng-options="o.BeneficiaryName for o in Beneficiaries track by o.Id"></select><br />
+                    </div>
+                </div>
+                <div class="boxpanel" ng-show="request.SelectedBeneficiary.AccountNumber>0">
+                    <span>Beneficiary Details</span>
+                    <span>Name    :{{request.SelectedBeneficiary.BeneficiaryName}}</span><br />
+                    <span>Ac No   :{{request.SelectedBeneficiary.AccountNumber}}</span><br />
+                    <span>IFSC    :{{request.SelectedBeneficiary.Ifsc}}</span><br />
+                    <span>Br.Name :{{request.SelectedBeneficiary.Branch}}</span><br />
+                    <span>Limit   :{{request.SelectedBeneficiary.MaxLimit}}</span><br />
+                </div>
+                <div>
+                    <span class="input-label">Nerration : </span>
+                    <input class="input-pub" id="BeneficiaryName" ng-model="request.Nerration" type="text" placeholder="Nerration">
+                </div>
+                <div>
+                    <span class="input-label">Amount to be transfered : </span>
+                    <input class="input-pub" id="Amount" ng-model="request.Amount" type="number" placeholder="Rs.">
+                </div>
+            </div>
+            <div class="row">
+                <button class="button button-block button-pub" style="background-color:limegreen !important" ng-click="SendOTP()">Submit</button>
+            </div>
+
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+            </div>
+        </div>
+    </div>
+</ion-view>

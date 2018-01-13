@@ -1,0 +1,26 @@
+{
+  "name": "cordova-plugin-crosswalk-certificate",
+  "version": "2.0.1",
+  "description": "Cordova plugin to enable the use of untrusted (self-signed) SSL Certificates with Crosswalk.",
+  "cordova": {
+    "id": "cordova-plugin-crosswalk-certificate",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danjarvis/cordova-plugin-crosswalk-certificate.git"
+  },
+  "keywords": [
+    "cordova",
+    "crosswalk",
+    "certificates",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Daniel Jarvis",
+  "license": "MIT"
+}

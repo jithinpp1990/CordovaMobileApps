@@ -1,0 +1,112 @@
+﻿
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/TileAnim.js"></script>
+<link href="css/dashboard.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="dashboardCtrl">
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
+        </div>
+        <div class="row" style="margin:2px;padding:1px">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+    </div>    
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace"> 
+        <div class="fixed-mid-home">
+            <div class="menu1">
+                <div class="main1">
+                    <button ng-click="Redirect('AccountSummary')" class="button-tile">
+                        <img class="buttonicon" src="img/sumcolor.png" />
+                        A/C Summary
+                    </button>
+                </div>
+                <div class="main1">
+                    <button ng-click="Redirect('AccountStatement')" class="button-tile">
+                        <img class="buttonicon" src="img/stmtcolor.png" />
+                        A/C Statement
+                    </button>
+                </div>
+                <div class="main1">
+                    <button ng-click="Redirect('QuickBalance')" class="button-tile">
+                        <img class="buttonicon" src="img/balance.png" />
+                         Quick Balance
+                    </button>
+                </div>              
+                <div class="main1">
+                    <button ng-click="Redirect('EazyTrade')" class="button-tile">
+                        <img class="buttonicon" src="img/trademain.png" />
+                        EazyTrade
+                    </button>
+                </div>
+                <div class="main1">
+                    <button ng-click="Redirect('FundTransfer')" class="button-tile">
+                        <img class="buttonicon" src="img/transfercolor.png" />
+                        Fund Transfer
+                    </button>
+                </div>
+                <div class="main1" >
+                    <button ng-click="Redirect('AccountDetails')" class="button-tile">
+                        <img class="buttonicon" src="img/profilecolor.png" />
+                        Profile
+                    </button>
+                </div>
+                <div class="main1">
+                    <button ng-click="Redirect('Notifications')" class="button-tile">
+                        <img class="buttonicon" src="img/notificationcolor.png" />
+                        Notifications
+                    </button>
+                </div>  
+                <div class="main1">
+                    <button ng-click="Redirect('BankDet')" class="button-tile">
+                        <img class="buttonicon" src="img/Bank.png" />
+                        Branch Details
+                    </button>
+                </div> 
+                <div class="main1">
+                    <button ng-click="Redirect('CheckBookRequest')" class="button-tile">
+                        <img class="buttonicon" src="img/chequecolor.png" />
+                        Cheque Services
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </ion-content>
+    <!--<div class="fixed-bottom">
+    </div>-->
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item" ui-sref="dashboardCtrl" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+
+                </a>
+           <!--     <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>-->
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+                <a class="tab-item" ui-sref="verifycustomer" style="border-color:#5d75e9;">
+                    <i class="icon ion-locked" style="color:white;"></i>
+                    Reset PWD/PIN
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</ion-view>

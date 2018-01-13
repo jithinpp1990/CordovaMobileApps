@@ -1,0 +1,73 @@
+﻿<link href="css/accountstatement.css" rel="stylesheet">
+<style>
+    .boxpanel {
+        background-color: #f1f1f1;
+        margin: 8px 0;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+    }
+</style>
+<ion-view class="outer-layout" ng-controller="agentprofileCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <ion-content class="padding">
+        <div class="fixed-top-home" ng-click="Back()">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+        <br />
+        <div class="boxpanel">
+            <div class="row">
+                <p>Name &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{{AgentPersonalaData.Name}}</p>
+                <p>Membership No&nbsp;&nbsp;:&nbsp;&nbsp;{{AgentPersonalaData.MembershipNo}}</p>
+            </div>
+            <div class="row">
+                <p>Address&nbsp;&nbsp;:&nbsp;&nbsp;{{AgentPersonalaData.Address}}&nbsp;,</p>
+                <p>{{AgentPersonalaData.PhoneNumber}}</p>
+            </div>
+        </div>
+        <div class="boxpanel">
+            <div ng-repeat="AgentAccount in AgentAccountSummary">
+                <p>Head  :  {{AgentAccount.AcHeadName}}</p>
+                <div class="row">
+                    <p>{{AgentAccount.AccountNo}}</p>
+                    <p>{{AgentAccount.Balance}}</p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item active" ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+
+            </div>
+        </div>
+    </div>
+</ion-view>

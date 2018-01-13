@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "alias": "ccbank",
+      "keystore": "D:\\ccbank.keystore",
+      "keystoreType": "",
+      "password": "ccbank",
+      "storePassword": "ccbank"
+    }
+  }
+}

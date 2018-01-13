@@ -1,0 +1,119 @@
+﻿<link href="css/accountstatement.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="beneficiaryeditCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <ion-content class="padding" style="margin-bottom:50px !important">
+        <div class="fixed-top-home" ng-click="Back()">
+            <div class="row">
+                <img class="img-header-home" src="img/Banner.png" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+
+        <div class="fixed-mid" style="margin-bottom: 50px;">
+            <div class="list">
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Beneficiary Name</span>
+                    <input type="text" ng-model="beneficiaryDetails.BeneficiaryName"  placeholder={{beneficiaryDetails.BeneficiaryName}}>
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Account Number</span>
+                    <input type="text" ng-model="beneficiaryDetails.AccountNumber" placeholder={{beneficiaryDetails.AccountNumber}}>
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Beneficiary Type</span>
+                    <input type="text" placeholder={{beneficiaryDetails.BeneficiaryType}} disabled="disabled" style="background-color:white;">
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Address Line 1</span>
+                    <input type="text" ng-model="beneficiaryDetails.AddressLine1" placeholder={{beneficiaryDetails.AddressLine1}}>
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Address Line 2</span>
+                    <input type="text" ng-model="beneficiaryDetails.AddressLine2" placeholder={{beneficiaryDetails.AddressLine2}}>
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Address Line 3</span>
+                    <input type="text" ng-model="beneficiaryDetails.AddressLine3" placeholder={{beneficiaryDetails.AddressLine3}}>
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;">
+                    <span class="input-label">Maximum Transfer Limit</span>
+                    <input type="text" ng-model="beneficiaryDetails.MaxLimit" placeholder={{beneficiaryDetails.MaxLimit}}>
+                </label>
+                <label class="item item-input item-stacked-label" style="text-align:left;" ng-show="beneficiaryDetails.BeneficiaryType != 'OtherBank'">
+                    <span class="input-label">IFSC</span>
+                    <input type="text" ng-model="beneficiaryDetails.IFSC" placeholder={{beneficiaryDetails.IFSC}}>
+                </label>
+            </div>
+            <div class="item item-input-inset" ng-show="beneficiaryDetails.BeneficiaryType == 'OtherBank'" style="text-align:left;">
+                <label class="item-input-wrapper item-stacked-label">
+                    <span class="input-label">IFSC</span>
+                    <input type="text" placeholder={{beneficiaryDetails.IFSC}} ng-model="beneficiaryDetails.IFSC" />
+                </label>
+                <button class="button button-small" ng-click="ValidateIFSC()">
+                    Validate IFSC
+                </button>
+            </div>
+            <div ng-show="beneficiaryDetails.BeneficiaryType == 'OtherBank'">
+                <div class="list list-inset" ng-show="BankName.length > 0">
+                    <div class="item">
+                        <h2><b>{{BankName}}</b></h2>
+                        <p style="color:black;font-weight:100">Branch name</p>
+                    </div>
+                    <div class="item">
+                        <h2><b>{{BankBranch}}</b></h2>
+                        <p style="color:black;font-weight:100">Branch branch</p>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="item item-input-inset" ng-hide="IsOTPValidated">
+                <label class="item-input-wrapper">
+                    <input type="text" placeholder="OTP" ng-model="">
+                </label>
+                <button class="button button-small" ng-hide="IsSentOTP">
+                    Send OTP
+                </button>
+                <button class="button button-small" ng-show="IsSentOTP">
+                    Validate
+                </button>
+            </div>-->
+            <div class="row">
+                <button class="button icon-left ion-ios-cloud-upload-outline button-positive button-block button-pub" style="margin-right:1px;" ng-click="UpdateDet()">Update</button>
+                <button class="button icon-left ion-android-delete  button-assertive  button-block button-pub" ng-click="Delete()">Delete</button>
+            </div>
+        </div>
+
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+            </div>
+        </div>
+    </div>
+</ion-view>
