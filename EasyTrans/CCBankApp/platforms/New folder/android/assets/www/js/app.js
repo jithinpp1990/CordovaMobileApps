@@ -27,21 +27,30 @@ var starter = angular.module('starter', ['ionic', 'ngCordova'])
         }
     });
 })
+
+
 .factory('sessionFactory', function () {
     var session = {
         username: '',
         sessiontoken: '',
         userid: '',
         memberid: '',
-        appid:''
+        appid: '',
+        mobileno: '',
+        name: '',
+        bankid:''
     };
     return {
-        setSession: function (username, token, userid, memberid,appid) {
+        setSession: function (username, token, userid, memberid, appid, mobileno, name, bankid) {
             session.username = username;
             session.sessiontoken = token;
             session.userid = userid;
             session.memberid = memberid;
             session.appid = appid;
+            session.mobileno = mobileno;
+            session.name = name;
+            session.bankid = bankid;
+
             return session;
         },
         getSession: function () {
@@ -60,17 +69,17 @@ var starter = angular.module('starter', ['ionic', 'ngCordova'])
         }
     }
 })
-    .factory('userStatus', function () {
-        var userStatus = null;
-        return {
-            setUserStatus: function (userstatus) {
-                userStatus = userstatus;
-            },
-            getUserStatus: function () {
-                return userStatus;
-            }
+.factory('userStatus', function () {
+    var userStatus = null;
+    return {
+        setUserStatus: function (userstatus) {
+            userStatus = userstatus;
+        },
+        getUserStatus: function () {
+            return userStatus;
         }
-    })
+    }
+})
 .factory('beneficiatryIdForEdit', function () {
     var beneficiaryId = 0;
     return {

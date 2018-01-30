@@ -1,4 +1,4 @@
-﻿<link href="css/verifycustomer.css" rel="stylesheet" />
+﻿<link href="css/beneficiary.css" rel="stylesheet" />
 <ion-view class="outer-layout" view-title="Login" name="login-view" ng-controller="verifycustomerCtrl">
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
@@ -11,17 +11,15 @@
                 <img class="img-header-home" src="img/Banner.png" />
             </div>
         </div>
-        <div class="fixed-mid-home">
-            <div class="list list-inset theme-black">
-                <div class="row">
-                    <div class="label-pub"><p>User ID</p></div>
-                    <label class="item item-input input-pub">
-                        <input id="customerId" type="text" ng-model="request.CustomerId" />
-                    </label>
+        <div class="fixed-mid-home" style="margin-top:40% !important;">
+            <div class="boxpanel">
+                <div>
+                    <span class="input-label">User ID : </span>
+                    <input id="customerId" class="input-pub" type="text"  ng-model="request.CustomerId" />
                 </div>
-                <div class="row">
-                    <button class="button button-block button-pub" ng-click="VerifyCustomer()">Send OTP</button>
-                </div>
+            </div>
+            <div class="row">
+                <button class="button button-block button-pub" ng-click="VerifyCustomer()">Verify User</button>
             </div>
         </div>
     </ion-content>

@@ -1,4 +1,4 @@
-﻿<link href="css/verifycustomer.css" rel="stylesheet" />
+﻿<link href="css/beneficiary.css" rel="stylesheet" />
 <ion-view class="outer-layout" view-title="Login" name="login-view" ng-controller="verifyotpCtrl">
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div class="fixed-mid-home">
+        <!--<div class="fixed-mid-home">
             <div class="list list-inset theme-black">
                 <div class="row">
                     <div class="label-pub"><p>Enter OTP</p></div>
@@ -24,6 +24,17 @@
                 <div class="row">
                     <button class="button button-block button-pub" ng-click="VerifyOTP()">Verify OTP</button>
                 </div>
+            </div>
+        </div>-->
+        <div class="fixed-mid-home" style="margin-top:40% !important;">
+            <div class="boxpanel">
+                <div>
+                    <span class="input-label">Enter OTP : </span>
+                    <input id="otp" class="input-pub" type="text" ng-model="request.OTP" />
+                </div>
+            </div>
+            <div class="row">
+                <button class="button button-block button-pub" ng-click="VerifyOTP()">Verify OTP</button>
             </div>
         </div>
     </ion-content>

@@ -46,13 +46,14 @@ a {
 
 .title {
     text-align: center;
-    color: white;
+    color: black;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: bolder;
     padding-top: 10px;
     width: 100%;
-    background-color: #5d75e9;
+    background-color: #ffffff;
+    /*box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;*/
     /* background-color: #5d75e9; */
     display: block;
     clear: both;
@@ -94,11 +95,13 @@ a {
 .input-pub {
     border-radius: 0px;
     border-width: 0px;
-    background-color: #011219;
+    background-color: rgba(0,0,0,0.12);
     margin-top: 10px;
     margin-bottom: 10px;
-    color: white;
+    color: black;
+    font-weight:bold
 }
+
 .img-header-home {
     position: relative;
     top: 0%;
@@ -109,6 +112,26 @@ a {
     max-height: 60px;
 }
 
+.button {
+    border-color: transparent;
+    background-color: #aeb7e2;
+    color: #444;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0 12px;
+    min-width: 52px;
+    min-height: 47px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    vertical-align: top;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    line-height: 42px;
+    cursor: pointer;
+}
 .button-pub {
     border-radius: 15px;
     border-width: 3px;
@@ -116,6 +139,8 @@ a {
     background-color: #5d75e9;
     color: white;
     font-weight: 500;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+}
 }
 
 .button-row {
@@ -126,14 +151,15 @@ a {
     color: white;
     font-weight: 500;
     height:10px;
+     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
 }
 
 #user, #pwd {
-    color: #fff;
+    color: black;
     font-weight: normal;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 /*.scroll-bar-indicator {
@@ -143,8 +169,6 @@ a {
 /*.overflow-scroll {
     overflow: hidden;
 }*/
-
-
 div.spinner {
     margin: auto;
     position: absolute;

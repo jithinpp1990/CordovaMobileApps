@@ -1,25 +1,16 @@
 ﻿<link href="css/dashboard.css" rel="stylesheet">
-<style>
-    .boxpanel {
-        background-color: #f1f1f1;
-        /*padding: 0.01em 16px;*/
-        margin: 8px 0;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
-    }
-</style>
+
 <ion-view class="outer-layout" ng-controller="impsdashboardCtrl">
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
             <ion-spinner icon="android"></ion-spinner>
         </div>
     </div>
-    <ion-content class="padding" style="margin-bottom:50px !important">
-        <div class="fixed-top-home" ng-click="Back()">
-            <div class="row">
-                <img class="img-header-home" src="img/Banner.png" />
-            </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
         </div>
-        <div class="row">
+        <div class="row" style="margin:2px;padding:1px">
             <div class="col-60 wel-user">
                 <p>Welcome, {{Username}}</p>
             </div>
@@ -27,52 +18,42 @@
                 <p><a href="#/" ng-click="Logout()">Logout</a></p>
             </div>
         </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
         <br />
         <div class="fixed-mid-home">
-            <div class="boxpanel">
-                <div class="row">
-                    <span>M M I D     : {{request.MMID}}</span><br />
-                    <span>Mob Number  :{{request.MobileNo}}</span><br />
-                </div>
-
-                <span>Payment Total   :{{request.PaymentTotal}}</span><br />
-            </div>
-            <div class="menu1">
-                <div class="main1">
-                    <button ng-click="Redirect('GenMMID')" class="button-tile">
-                        <img class="buttonicon" src="img/intrabank.png" />
-                        Generate MMID
-                    </button>
-                </div>
-                <div class="main1">
-                    <button ng-click="Redirect('CancelMMID')" class="button-tile">
-                        <img class="buttonicon" src="img/interbank.png" />
-                        Cancel MMID
-                    </button>
-                </div>
-                <div class="main1">
-                    <button ng-click="Redirect('ImpsTrans')" class="button-tile">
-                        <img class="buttonicon" src="img/addben.png" />
-                        Fund Transfer
-                    </button>
-                </div>
-                <div class="main1">
-                    <button ng-click="Redirect('TopUp')" class="button-tile">
-                        <img class="buttonicon" src="img/addben.png" />
-                        TOP UP
-                    </button>
-                </div>
-                <div class="main1">
-                    <button ng-click="Redirect('BillPay')" class="button-tile">
-                        <img class="buttonicon" src="img/addben.png" />
-                        Bill Payment
-                    </button>
-                </div>
-                <div class="main1">
-                    <button ng-click="Redirect('#')" class="button-tile"></button>
-                </div>
-
-            </div>
+            <span>IMPS Services</span><br />
+            <ion-item  class="item-icon-left boxpanel" ng-click="Redirect('FTP2A')">
+                <i class="icon icon ion-paper-airplane"></i>
+                FundTransfer-IFSC
+            </ion-item>
+            <ion-item class="item-icon-left boxpanel" ng-click="Redirect('FTP2U')">
+                <i class="icon icon icon ion-briefcase"></i>
+                FundTransfer-UID
+            </ion-item>
+            <ion-item class="item-icon-left boxpanel" ng-click="Redirect('FTP2P')">
+                <i class="icon icon icon icon ion-iphone"></i>
+                FundTransfer-MMID
+            </ion-item>
+            <ion-item class="item-icon-left boxpanel" ng-click="Redirect('BillPay')">
+                <i class="icon icon icon icon icon ion-bag"></i>
+                Bill Payment
+            </ion-item>
+            <ion-item class="item-icon-left boxpanel" ng-click="Redirect('GenMMID')">
+                <i class="icon icon icon icon icon ion-bowtie"></i>
+                Generate MMID
+            </ion-item>
+            <ion-item class="item-icon-left boxpanel" ng-click="Redirect('CancelMMID')">
+                <i class="icon icon icon icon icon ion-close"></i>
+                Cancel MMID
+            </ion-item>
+            <!--<button class="accordion" ng-click="Redirect('FTP2A')">FundTransfer-IFSC</button>
+            <button class="accordion" ng-click="Redirect('FTP2U')">FundTransfer-UID</button>
+            <button class="accordion" ng-click="Redirect('FTP2P')">FundTransfer-MMID</button>
+            <button class="accordion" ng-click="Redirect('TopUp')">TopUp/Rechrge</button>
+            <button class="accordion" ng-click="Redirect('BillPay')">Bill Payment</button>
+            <button class="accordion" ng-click="Redirect('GenMMID')">Generate MMID</button>  
+            <button class="accordion"  ng-click="Redirect('CancelMMID')"> Cancel MMID</button>-->  
         </div>
     </ion-content>
     <div class="fixed-bottom">

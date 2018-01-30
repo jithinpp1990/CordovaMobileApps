@@ -1,27 +1,10 @@
 ﻿
-starter.controller("preloginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$ionicSlideBoxDelegate", "$cordovaFileTransfer", function ($scope, $state, APIUrl, sessionFactory, $http, $ionicSlideBoxDelegate, $cordovaFileTransfer) {
+starter.controller("preloginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$ionicSlideBoxDelegate", "$cordovaFileTransfer", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $ionicSlideBoxDelegate, $cordovaFileTransfer, $cordovaDevice) {
     $scope.ImageModelList = {};
-    var defaultImg = 
-    //var url = "http://www.axmag.com/download/pdfurl-guide.pdf";//APIUrl + "Content/GetDocument/";
-
-    //// File name only
-    //var filename = url.split("/").pop();
-
-    //// Save location
-    //var targetPath = "";//cordova.file.externalRootDirectory + filename;
-
-    //$cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
-    //    console.log('Success');
-    //}, function (error) {
-    //    console.log('Error');
-    //}, function (progress) {
-    //    // PROGRESS HANDLING GOES HERE
-    //});
 
     $scope.updateSlider = function () {
         $ionicSlideBoxDelegate.update();
     };
-
     $scope.GetImages = function () {
         var url = APIUrl + "Authentication/GetImages/";
         var request = {};
@@ -48,11 +31,40 @@ starter.controller("preloginCtrl", ["$scope", "$state", "APIUrl", "sessionFactor
     $scope.GetImages();
 }]);
 
-starter.controller("loginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", "$ionicSlideBoxDelegate", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice, $ionicSlideBoxDelegate) {
+starter.controller("loginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", "$ionicSlideBoxDelegate","$ionicPopup", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice, $ionicSlideBoxDelegate,$ionicPopup) {
     $scope.model = {
         username: '',
         password: ''
     };
+    $scope.pauseTime = null;
+    $scope.resumeTime = null;
+    $scope.onLoad = function () {
+        document.addEventListener("deviceready", document.onDeviceReady, false);
+    };
+    document.onDeviceReady = function () {
+        document.addEventListener("pause", document.onPause, false);
+        document.addEventListener("resume", document.onResume, false);
+        // Add similar listeners for other events
+    };
+    document.onPause = function () {
+        // Handle the pause event
+        $scope.resumeTime = null;
+        $scope.pauseTime = new Date();
+        return false;
+    }
+    document.onResume = function () {
+        // Handle the resume event     
+        $scope.resumeTime = null;
+        $scope.resumeTime = new Date();
+        var dif = $scope.resumeTime - $scope.pauseTime;
+        if (dif > 120000) {
+            alert("Session Timeout Please Re-Login!")
+            sessionFactory.setSession(null, null, null, null, null, null, null, null);
+            $state.go("login");
+            return false;
+        }
+        return false;
+    }
     $scope.ShowLoader = false;
     $scope.Login = function () {
         if ($scope.model.username.trim() == "" || $scope.model.password.trim() == "") {
@@ -78,8 +90,9 @@ starter.controller("loginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory",
                 return false;
             }
             else {
-                sessionFactory.setSession(data.data.SessionToken.Username, data.data.SessionToken.SessionToken, data.data.SessionToken.UserId, data.data.SessionToken.MemberId, data.data.SessionToken.AppId);
+                sessionFactory.setSession(data.data.SessionToken.Username, data.data.SessionToken.SessionToken, data.data.SessionToken.UserId, data.data.SessionToken.MemberId, data.data.SessionToken.AppId, data.data.SessionToken.MobileNo, data.data.SessionToken.Name, data.data.SessionToken.BankId);
                 var session = sessionFactory.getSession();
+                $scope.onLoad();
                 $state.go("dashboard");
             }
         }, function errorcallback(data, status) {
@@ -132,7 +145,7 @@ starter.controller("branchdetailCtrl", ["$scope", "$state", "APIUrl", "sessionFa
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -161,7 +174,7 @@ starter.controller("managementdetailCtrl", ["$scope", "$state", "APIUrl", "sessi
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -180,28 +193,9 @@ starter.controller("managementdetailCtrl", ["$scope", "$state", "APIUrl", "sessi
 
 starter.controller("dashboardCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
     $scope.Username = sessionFactory.getSession().username;
+
     $scope.ShowLoader = false;
     $scope.ServiceStatus = {};
-    //$scope.GetInitialData = function () {
-    //    $scope.ShowLoader = true;
-    //    var url = APIUrl + "Service/GetServices/";
-    //    $http.post(url, $scope.request).then(function (data, status) {
-    //        $scope.ShowLoader = false;
-    //        if (data.data != null) {
-    //            $scope.options = data.data.ServiceStatus;
-    //            return false;
-    //        }
-    //    }, function errorcallback(error, status) {
-    //        $scope.ShowLoader = false;
-    //        if (error.status == 401) {
-    //            alert("Unauthorized access. Login again.");
-    //            sessionFactory.setSession(null, null, null, null,null);
-    //            $state.go("login");
-    //            return false;
-    //        }
-    //        alert("An unexpected error occured. Please contact the administrator.");
-    //    });
-    //}
 
     $scope.Redirect = function (target) {
         switch (target) {
@@ -240,15 +234,15 @@ starter.controller("dashboardCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
                 break;
         }
     }
-
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
     $scope.Back = function () {
         $state.go("dashboard");
     };
+   
 }]);
 
 starter.controller("checkbookrequestCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
@@ -285,7 +279,7 @@ starter.controller("checkbookrequestCtrl", ["$scope", "$state", "APIUrl", "sessi
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -315,7 +309,7 @@ starter.controller("checkbookrequestCtrl", ["$scope", "$state", "APIUrl", "sessi
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -323,7 +317,7 @@ starter.controller("checkbookrequestCtrl", ["$scope", "$state", "APIUrl", "sessi
         });
     }
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -387,7 +381,7 @@ starter.controller("accountstatementCtrl", ["$scope", "$state", "APIUrl", "sessi
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -402,11 +396,7 @@ starter.controller("accountstatementCtrl", ["$scope", "$state", "APIUrl", "sessi
         }
         $scope.ShowLoader = true;
         $scope.request.DepositId = $scope.request.SelectedOption.Id;
-        $scope.request.AccountType = $scope.request.SelectedOption.accountType;
-        console.log($scope.request.SelectedOption);
-        console.log($scope.request.SelectedOption.Id);
-        console.log($scope.request.SelectedOption.AccountType);
-
+        $scope.request.AccountType = $scope.request.SelectedOption.AccountType;
         var url = APIUrl + "Service/RequestStatement/";
         $http.post(url, $scope.request).then(function (data, status) {
             $scope.ShowLoader = false;
@@ -424,7 +414,7 @@ starter.controller("accountstatementCtrl", ["$scope", "$state", "APIUrl", "sessi
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -437,7 +427,7 @@ starter.controller("accountstatementCtrl", ["$scope", "$state", "APIUrl", "sessi
     };
 
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -481,7 +471,7 @@ starter.controller("accountsummaryCtrl", ["$scope", "$state", "APIUrl", "session
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -498,7 +488,7 @@ starter.controller("accountsummaryCtrl", ["$scope", "$state", "APIUrl", "session
         $state.go("dashboard");
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -506,24 +496,25 @@ starter.controller("accountsummaryCtrl", ["$scope", "$state", "APIUrl", "session
     $scope.GetInitialData();
 }]);
 
-starter.controller("verifycustomerCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
+starter.controller("verifycustomerCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", "$ionicPopup", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice, $ionicPopup) {
     $scope.request = {
-        CustomerId: ''
+        CustomerId: '',
+        UserId: '',
+        OTP: ''
     };
     $scope.ShowLoader = false;
-    $scope.HaveSession = sessionFactory.getSession().userid != null;
     $scope.Back = function () {
 
-        var userid = sessionFactory.getSession().userid;
-        console.log(userid);
-        if (userid == null || userid == "")
+        var CustomerId = sessionFactory.getSession().CustomerId;
+        console.log(CustomerId);
+        if (CustomerId == null || CustomerId == "")
             $state.go("login");
         else
             $state.go("dashboard");
     };
     $scope.VerifyCustomer = function () {
         if ($scope.request.CustomerId.trim() == "") {
-            alert("Customer id should not be empty.");
+            alert("User id should not be empty.");
             return false;
         }
         $scope.ShowLoader = true;
@@ -531,8 +522,8 @@ starter.controller("verifycustomerCtrl", ["$scope", "$state", "APIUrl", "session
         $http.post(url, $scope.request).then(function (data, status) {
             $scope.ShowLoader = false;
             if (data.data.ValidCustomer) {
-                sessionFactory.setSession(null, null, $scope.request.CustomerId, null);
-                $state.go("verifyotp");
+                sessionFactory.setSession(null, null, $scope.request.CustomerId, null,null,null,null,null);
+                $scope.showPopup();
                 return false;
             }
             else {
@@ -548,9 +539,66 @@ starter.controller("verifycustomerCtrl", ["$scope", "$state", "APIUrl", "session
             alert("An unexpected error occured. Please contact the administrator.");
         });
     };
+    $scope.showPopup = function () {
+        $scope.data = {};
+        var myPopup = $ionicPopup.show({
+            template: '<input type="password" ng-model="data.otp">',
+            title: 'Enter OTP',
+            subTitle: 'Please enter OTP received on your mobile.',
+            scope: $scope,
+            buttons: [
+              { text: 'Cancel' },
+              {
+                  text: '<b>Ok</b>',
+                  type: 'button-positive',
+                  onTap: function (e) {
+                      if (!$scope.data.otp) {
+                          e.preventDefault();
+                      } else {
+                          return $scope.data.otp;
+                      }
+                  }
+              }
+            ]
+        });
+
+        myPopup.then(function (res) {
+            $scope.request.OTP = res;
+            $scope.IsSentOTP = true;
+            $scope.VerifyOTP();
+        });
+
+        $timeout(function () {
+            myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 200000);
+    };
+    $scope.VerifyOTP = function () {
+        $scope.request.CustomerId = sessionFactory.getSession().userid;
+        $scope.ShowLoader = true;
+        var url = APIUrl + "Service/VerifyOTP/";
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            if (data.data.ValidCustomer) {
+                $state.go("resetpassword");
+                return false;
+            }
+            else {
+                alert(data.data.ErrorMessage);
+                $state.go("verifycustomer");
+                return false;
+            }
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 412) {
+                alert("Invalid OTP");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
     $scope.Back = function () {
-        var userid = sessionFactory.getSession().userid;
-        if (userid == null || userid == "")
+        var CustomerId = sessionFactory.getSession().CustomerId;
+        if (CustomerId == null || CustomerId == "")
             $state.go("login");
         else
             $state.go("login");
@@ -728,7 +776,7 @@ starter.controller("accountdetailsCtrl", ["$scope", "$state", "APIUrl", "session
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -736,7 +784,7 @@ starter.controller("accountdetailsCtrl", ["$scope", "$state", "APIUrl", "session
         });
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -771,12 +819,13 @@ starter.controller("notificationsCtrl", ["$scope", "$state", "APIUrl", "sessionF
             }
             else {
                 alert("No Notification To Display!!!");
+                return false;
             }
         }, function errorcallback(error, status) {
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -784,7 +833,7 @@ starter.controller("notificationsCtrl", ["$scope", "$state", "APIUrl", "sessionF
         });
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -819,7 +868,7 @@ starter.controller("documentCtrl", ["$scope", "$state", "APIUrl", "sessionFactor
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -872,7 +921,7 @@ starter.controller("documentCtrl", ["$scope", "$state", "APIUrl", "sessionFactor
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -880,7 +929,7 @@ starter.controller("documentCtrl", ["$scope", "$state", "APIUrl", "sessionFactor
         });
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -892,7 +941,7 @@ starter.controller("documentCtrl", ["$scope", "$state", "APIUrl", "sessionFactor
 }]);
 
 starter.controller("fundtransferCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
-    $scope.ShowLoader = true;
+
     $scope.IsATrader = false;
     $scope.Username = sessionFactory.getSession().username;
     $scope.request = {
@@ -904,35 +953,35 @@ starter.controller("fundtransferCtrl", ["$scope", "$state", "APIUrl", "sessionFa
         TradeCode: null
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     };
 
 
-    $scope.GetInitialData = function () {
-        $scope.ShowLoader = true;
-        var url = APIUrl + "Service/ValidateTrader/";
-        console.log(url + " -- " + $scope.request);
-        $http.post(url, $scope.request).then(function (data, status) {
-            $scope.ShowLoader = false;
-            if (data.data.TraderName == null || data.data.TraderName == "") {
-                $scope.IsATrader = true;
-            }
-            else {
-                $scope.IsATrader = false;
-            }
-        }, function errorcallback(error, status) {
-            $scope.ShowLoader = false;
-            if (error.status == 401) {
-                alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
-                $state.go("login");
-                return false;
-            }
-            alert("An unexpected error occured. Please contact the administrator.");
-        });
-    };
+    //$scope.GetInitialData = function () {
+    //    $scope.ShowLoader = true;
+    //    var url = APIUrl + "Service/ValidateTrader/";
+    //    console.log(url + " -- " + $scope.request);
+    //    $http.post(url, $scope.request).then(function (data, status) {
+    //        $scope.ShowLoader = false;
+    //        if (data.data.TraderName == null || data.data.TraderName == "") {
+    //            $scope.IsATrader = true;
+    //        }
+    //        else {
+    //            $scope.IsATrader = false;
+    //        }
+    //    }, function errorcallback(error, status) {
+    //        $scope.ShowLoader = false;
+    //        if (error.status == 401) {
+    //            alert("Unauthorized access. Login again.");
+    //            sessionFactory.setSession(null, null, null, null, null,null,null,null);
+    //            $state.go("login");
+    //            return false;
+    //        }
+    //        alert("An unexpected error occured. Please contact the administrator.");
+    //    });
+    //};
 
 
     $scope.Redirect = function (type) {
@@ -950,7 +999,7 @@ starter.controller("fundtransferCtrl", ["$scope", "$state", "APIUrl", "sessionFa
                 break;
             }
             case 'AddBeneficiary': {
-                $state.go('addbeneficiary');
+                $state.go('addbeneficiarydashboard');
                 break;
             }
             case 'BeneficiaryList': {
@@ -975,13 +1024,80 @@ starter.controller("fundtransferCtrl", ["$scope", "$state", "APIUrl", "sessionFa
     $scope.Back = function () {
         $state.go("dashboard");
     };
+    // $scope.GetInitialData();
+
+}]);
+
+starter.controller("easytradedashboardCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
+    $scope.ShowLoader = true;
+    $scope.IsATrader = false;
+    $scope.Username = sessionFactory.getSession().username;
+    $scope.request = {
+        SessionToken: sessionFactory.getSession().sessiontoken,
+        UserId: sessionFactory.getSession().userid,
+        DeviceId: sessionFactory.getSession().deviceId,
+        MemberId: sessionFactory.getSession().memberid,
+        AppId: sessionFactory.getSession().appid,
+        TradeCode: null
+    };
+    $scope.Logout = function () {
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
+        $state.go("login");
+        return false;
+    };
+
+
+    $scope.GetInitialData = function () {
+        $scope.ShowLoader = true;
+        var url = APIUrl + "Service/ValidateTrader/";
+        console.log(url + " -- " + $scope.request);
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            if (data.data.TraderName == null || data.data.TraderName == "") {
+                $scope.IsATrader = true;
+            }
+            else {
+                $scope.IsATrader = false;
+            }
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+
+
+    $scope.Redirect = function (type) {
+        switch (type) {
+            case 'EazyTrade': {
+                $state.go('eazytrade');
+                break;
+            }
+            case 'EazyTradeTrader': {
+                $state.go('eazytradetrader');
+                break;
+            }
+            case 'TradeStatement': {
+                $state.go('accountstatementtrade');
+                break;
+            }
+        }
+    };
+
+    $scope.Back = function () {
+        $state.go("dashboard");
+    };
     $scope.GetInitialData();
 
 }]);
 
 starter.controller("ownaccounttransferCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
     $scope.ShowLoader = false;
-    console.log("ownaccount")
     $scope.Username = sessionFactory.getSession().username;
     var deviceId = $cordovaDevice.getUUID();
     $scope.FromAccounts = {};
@@ -1002,7 +1118,6 @@ starter.controller("ownaccounttransferCtrl", ["$scope", "$state", "APIUrl", "ses
         OTP: "",
         Amount: 0.00,
         Service: "ownbanktransfer"
-
     };
     $scope.GetInitialData = function () {
         console.log("initial data");
@@ -1017,7 +1132,7 @@ starter.controller("ownaccounttransferCtrl", ["$scope", "$state", "APIUrl", "ses
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1049,15 +1164,14 @@ starter.controller("ownaccounttransferCtrl", ["$scope", "$state", "APIUrl", "ses
             $scope.ShowLoader = false;
             $scope.IsSentOTP = false;
             alert(data.data);
-            $state.go("transfer");
             $scope.ClearAll();
-            $state.go('ownaccounttransfer');
+            $state.go('fundtransfer');
 
         }, function errorcallback(error, status) {
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1101,7 +1215,7 @@ starter.controller("ownaccounttransferCtrl", ["$scope", "$state", "APIUrl", "ses
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1121,7 +1235,7 @@ starter.controller("ownaccounttransferCtrl", ["$scope", "$state", "APIUrl", "ses
 
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -1164,7 +1278,7 @@ starter.controller("otheraccounttransferCtrl", ["$scope", "$state", "APIUrl", "s
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1204,7 +1318,7 @@ starter.controller("otheraccounttransferCtrl", ["$scope", "$state", "APIUrl", "s
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1239,7 +1353,7 @@ starter.controller("otheraccounttransferCtrl", ["$scope", "$state", "APIUrl", "s
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1247,7 +1361,7 @@ starter.controller("otheraccounttransferCtrl", ["$scope", "$state", "APIUrl", "s
         });
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -1279,15 +1393,53 @@ starter.controller("otheraccounttransferCtrl", ["$scope", "$state", "APIUrl", "s
     $scope.GetInitialData();
 }]);
 
-starter.controller("addbeneficiaryCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
+starter.controller("addbeneficiarydashboardCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
+
+    $scope.IsATrader = false;
+    $scope.Username = sessionFactory.getSession().username;
+    $scope.request = {
+        SessionToken: sessionFactory.getSession().sessiontoken,
+        UserId: sessionFactory.getSession().userid,
+        DeviceId: sessionFactory.getSession().deviceId,
+        MemberId: sessionFactory.getSession().memberid,
+        AppId: sessionFactory.getSession().appid,
+        TradeCode: null
+    };
+    $scope.Logout = function () {
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
+        $state.go("login");
+        return false;
+    };
+    $scope.Redirect = function (type) {
+        switch (type) {
+            case 'Inter': {
+                $state.go('addbeneficiaryinter');
+                break;
+            }
+            case 'Intra': {
+                $state.go('addbeneficiaryintra');
+                break;
+            }
+            case 'Imps': {
+                $state.go('addbeneficiaryimps');
+                break;
+            }
+        }
+    };
+
+    $scope.Back = function () {
+        $state.go("fundtransfer");
+    }
+
+}]);
+
+starter.controller("addbeneficiaryCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$ionicPopup", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $ionicPopup, $cordovaDevice) {
     $scope.ShowLoader = false;
     $scope.Username = sessionFactory.getSession().username;
     var deviceId = $cordovaDevice.getUUID();
     $scope.MinLimit = 100;
     $scope.MaxLimit = 100000;
     $scope.IsSentOTP = false;
-    $scope.BeneficiaryType = "WithInBank";
-    //$scope.Service = "addbenificiary";
     var sessionToken = sessionFactory.getSession();
     $scope.request = {
         SessionToken: sessionToken.sessiontoken,
@@ -1298,6 +1450,9 @@ starter.controller("addbeneficiaryCtrl", ["$scope", "$state", "APIUrl", "session
         BeneficiaryName: "",
         AccountNumber: "",
         ConfirmAccountNumber: "",
+        Mmid: "",
+        ConfirmMmid: "",
+        MobileNumber: "",
         AddressLine1: "",
         AddressLine2: "",
         AddressLine3: "",
@@ -1305,64 +1460,101 @@ starter.controller("addbeneficiaryCtrl", ["$scope", "$state", "APIUrl", "session
         OTP: "",
         BankName: "",
         BankBranch: "",
-        BankName: "",
         AppId: sessionToken.appid,
-        Service: "addbeneficiary"
-        //BeneficiaryType:$scope.request.BeneficiaryType
+        Service: "addbeneficiary",
+        BeneficiaryType: ""
     };
-
-
     $scope.SendOTP = function () {
-        if ($scope.request.BeneficiaryName == "") {
-            alert("Invalid Beneficiary Name");
-            return false;
-        }
-        if ($scope.request.AccountNumber.trim() == "" || $scope.request.ConfirmAccountNumber.trim() == "") {
-            alert("Invalid Account number");
-            return false;
-        }
-        if ($scope.request.AccountNumber.trim() !== $scope.request.ConfirmAccountNumber.trim()) {
-            alert("Account numbers donot match");
-            return false;
-        }
-        if ($scope.request.BankName == "" && $scope.request.BeneficiaryType == "OtherBank") {
-            alert("Please Validate IFSC code");
-            return false;
-        }
-        if ($scope.request.TransferLimit == 0) {
-            alert("Invalid transfer limit");
-            return false;
-        }
-        if ($scope.request.AddressLine1 == "") {
-            alert("Invalid transfer limit");
-            return false;
-        }
+        if ($scope.request.BeneficiaryType == "Imps") {
+            if ($scope.request.BeneficiaryName == "") {
+                alert("Invalid Beneficiary Name");
+                return false;
+            }
 
+            if ($scope.request.Mmid.trim() == "" || $scope.request.ConfirmMmid.trim() == "") {
+                alert("Invalid MMID");
+                return false;
+            }
+
+            if ($scope.request.Mmid.trim() != $scope.request.ConfirmMmid.trim()) {
+                alert("MMID Does not match");
+                return false;
+            }
+
+            if ($scope.request.MobileNumber == "" || $scope.request.MobileNumber.toString().length != 10) {
+                alert("Invalid Mobile number");
+                return false;
+            }
+            if ($scope.request.TransferLimit == 0) {
+                alert("Invalid transfer limit");
+                return false;
+            }
+        }
+        else if ($scope.request.BeneficiaryType == "Intra") {
+            if ($scope.request.BeneficiaryName == "") {
+                alert("Invalid Beneficiary Name");
+                return false;
+            }
+            if ($scope.request.AccountNumber.trim() == "" || $scope.request.ConfirmAccountNumber.trim() == "") {
+                alert("Invalid Ac. No.");
+                return false;
+            }
+            if ($scope.request.AccountNumber.trim() != $scope.request.ConfirmAccountNumber.trim()) {
+                alert("Ac. No. Does not match");
+                return false;
+            }
+            if ($scope.request.TransferLimit == 0) {
+                alert("Invalid transfer limit");
+                return false;
+            }
+        }
+        else if ($scope.request.BeneficiaryType == "Inter") {
+            if ($scope.request.BeneficiaryName == "") {
+                alert("Invalid Beneficiary Name");
+                return false;
+            }
+            if ($scope.request.AccountNumber.trim() == "" || $scope.request.ConfirmAccountNumber.trim() == "") {
+                alert("Invalid Ac. No.");
+                return false;
+            }
+            if ($scope.request.AccountNumber.trim() != $scope.request.ConfirmAccountNumber.trim()) {
+                alert("Ac. No. Does not match");
+                return false;
+            }
+            if ($scope.request.TransferLimit == 0) {
+                alert("Invalid transfer limit");
+                return false;
+            }
+            if ($scope.request.BankName == "") {
+                alert("Invalid IFSC Code");
+                return false;
+            }
+
+
+        }
         $scope.ShowLoader = true;
         var url = APIUrl + "Service/SendOTP/";
         $http.post(url, $scope.request).then(function (data, status) {
             $scope.ShowLoader = false;
-            $scope.IsSentOTP = true;
+            $scope.showPopup();
         }, function errorcallback(error, status) {
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
             alert("An unexpected error occured. Please contact the administrator.");
         });
     };
-
     $scope.ValidateIFSC = function () {
-        if ($scope.request.IFSC = "") {
+        if ($scope.request.IFSC == "") {
             alert("Invalid IFSC Code");
             return false;
         }
         $scope.ShowLoader = true;
         var url = APIUrl + "Service/ValidateIFSC/";
-        console.log(url + " -- " + $scope.request);
         $http.post(url, $scope.request).then(function (data, status) {
             if (data.data == null) {
                 alert("Invalid IFSC code");
@@ -1375,74 +1567,82 @@ starter.controller("addbeneficiaryCtrl", ["$scope", "$state", "APIUrl", "session
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
             alert("An unexpected error occured. Please contact the administrator.");
         });
     };
-
     $scope.AddBeneficiary = function () {
-        $scope.request.BeneficiaryType = $scope.BeneficiaryType;
-        if ($scope.request.AccountNumber.trim() == "" || $scope.request.ConfirmAccountNumber.trim() == "") {
-            alert("Invalid Account number");
-            return false;
-        }
-        if ($scope.request.AccountNumber.trim() !== $scope.request.ConfirmAccountNumber.trim()) {
-            alert("Account numbers donot match");
-            return false;
-        }
-        //if ($scope.request.BankName == "" && $scope.request.BeneficiaryType == "OtherBank") {
-        //    alert("Please Validate IFSC code");
-        //    return false;
-        //}
-        if ($scope.request.OTP.trim() == "") {
-            alert("Invalid OTP");
-            return false;
-        }
-        if ($scope.request.TransferLimit == 0) {
-            alert("Invalid transfer limit");
-            return false;
-        }
         $scope.ShowLoader = true;
-        console.log("inside");
         var url = APIUrl + "Service/AddBeneficiary/";
         $http.post(url, $scope.request).then(function (data, status) {
             $scope.IsSentOTP = false;
             $scope.ClearAll();
             $scope.ShowLoader = false;
             alert(data.data);
+            $state.go('addbeneficiarydashboard');
         }, function errorcallback(error, status) {
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
             alert("An unexpected error occured. Please contact the administrator.");
         });
-
     };
-
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
     $scope.Back = function () {
-        $state.go("fundtransfer");
+        $state.go("addbeneficiarydashboard");
     };
     $scope.ClearAll = function () {
-        var elements = document.getElementsByTagName("input");
+        var elements = document.getElementsByClassName("input-pub");
         for (var ii = 0; ii < elements.length; ii++) {
             if (elements[ii].type == "text") {
-                elements[ii].value = "";
+                elements[ii].value = null;
             }
         }
     };
+    $scope.showPopup = function () {
+        $scope.data = {};
+        var myPopup = $ionicPopup.show({
+            template: '<input type="password" ng-model="data.otp">',
+            title: 'Enter OTP',
+            subTitle: 'Please enter OTP received on your mobile.',
+            scope: $scope,
+            buttons: [
+              { text: 'Cancel' },
+              {
+                  text: '<b>Ok</b>',
+                  type: 'button-positive',
+                  onTap: function (e) {
+                      if (!$scope.data.otp) {
+                          e.preventDefault();
+                      } else {
+                          return $scope.data.otp;
+                      }
+                  }
+              }
+            ]
+        });
 
+        myPopup.then(function (res) {
+            $scope.request.OTP = res;
+            $scope.IsSentOTP = true;
+            $scope.AddBeneficiary();
+        });
+
+        $timeout(function () {
+            myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 200000);
+    };
     $scope.ChangeBeneficiaryType = function (type) {
         $scope.BeneficiaryType = type;
     };
@@ -1474,7 +1674,7 @@ starter.controller("beneficiarylistCtrl", ["$scope", "$state", "APIUrl", "sessio
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1491,7 +1691,7 @@ starter.controller("beneficiarylistCtrl", ["$scope", "$state", "APIUrl", "sessio
         $state.go("fundtransfer");
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -1536,7 +1736,7 @@ starter.controller("beneficiaryeditCtrl", ["$scope", "$state", "APIUrl", "sessio
             beneficiatryIdForEdit.setBeneficiaryId(0);
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1561,7 +1761,7 @@ starter.controller("beneficiaryeditCtrl", ["$scope", "$state", "APIUrl", "sessio
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1573,7 +1773,7 @@ starter.controller("beneficiaryeditCtrl", ["$scope", "$state", "APIUrl", "sessio
         $state.go("beneficiarylist");
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -1597,7 +1797,7 @@ starter.controller("beneficiaryeditCtrl", ["$scope", "$state", "APIUrl", "sessio
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1617,7 +1817,7 @@ starter.controller("beneficiaryeditCtrl", ["$scope", "$state", "APIUrl", "sessio
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1657,7 +1857,7 @@ starter.controller("beneficiaryeditCtrl", ["$scope", "$state", "APIUrl", "sessio
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1749,7 +1949,7 @@ starter.controller("quickbalanceCtrl", ["$scope", "$state", "APIUrl", "sessionFa
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1759,7 +1959,7 @@ starter.controller("quickbalanceCtrl", ["$scope", "$state", "APIUrl", "sessionFa
     $scope.RequestBalance = function () {
         $scope.ShowLoader = true;
         $scope.request.DepositId = $scope.request.SelectedOption.Id;
-        $scope.request.AccountType = $scope.request.SelectedOption.accountType;
+        $scope.request.AccountType = $scope.request.SelectedOption.AccountType;
         console.log($scope.request.SelectedOption);
         console.log($scope.request.SelectedOption.Id);
         console.log($scope.request.SelectedOption.AccountType);
@@ -1778,7 +1978,7 @@ starter.controller("quickbalanceCtrl", ["$scope", "$state", "APIUrl", "sessionFa
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1802,7 +2002,7 @@ starter.controller("quickbalanceCtrl", ["$scope", "$state", "APIUrl", "sessionFa
     };
 
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -1858,7 +2058,7 @@ starter.controller("eazytradeCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1910,7 +2110,7 @@ starter.controller("eazytradeCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -1946,7 +2146,7 @@ starter.controller("eazytradeCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
                 $scope.ShowLoader = false;
                 if (error.status == 401) {
                     alert("Unauthorized access. Login again.");
-                    sessionFactory.setSession(null, null, null, null, null);
+                    sessionFactory.setSession(null, null, null, null, null, null, null, null);
                     $state.go("login");
                     return false;
                 }
@@ -1963,7 +2163,7 @@ starter.controller("eazytradeCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
                 $scope.ShowLoader = false;
                 if (error.status == 401) {
                     alert("Unauthorized access. Login again.");
-                    sessionFactory.setSession(null, null, null, null, null);
+                    sessionFactory.setSession(null, null, null, null, null, null, null, null);
                     $state.go("login");
                     return false;
                 }
@@ -1996,7 +2196,7 @@ starter.controller("eazytradeCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
             $scope.ShowLoader = false; weds
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -2004,7 +2204,7 @@ starter.controller("eazytradeCtrl", ["$scope", "$state", "APIUrl", "sessionFacto
         });
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -2134,7 +2334,7 @@ starter.controller("accountstatementtradeCtrl", ["$scope", "$state", "APIUrl", "
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -2160,7 +2360,7 @@ starter.controller("accountstatementtradeCtrl", ["$scope", "$state", "APIUrl", "
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -2173,7 +2373,7 @@ starter.controller("accountstatementtradeCtrl", ["$scope", "$state", "APIUrl", "
     };
 
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
@@ -2181,7 +2381,7 @@ starter.controller("accountstatementtradeCtrl", ["$scope", "$state", "APIUrl", "
 }]);
 
 starter.controller("impsdashboardCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
-    $scope.ShowLoader = true;
+    //$scope.ShowLoader = true;
     $scope.IsATrader = false;
     $scope.Username = sessionFactory.getSession().username;
     $scope.request = {
@@ -2193,13 +2393,10 @@ starter.controller("impsdashboardCtrl", ["$scope", "$state", "APIUrl", "sessionF
         TradeCode: null
     };
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     };
-       
-
-
     $scope.Redirect = function (type) {
         switch (type) {
             case 'GenMMID': {
@@ -2210,23 +2407,31 @@ starter.controller("impsdashboardCtrl", ["$scope", "$state", "APIUrl", "sessionF
                 $state.go('cancelmmid');
                 break;
             }
-            case 'ImpsTrans': {
-                $state.go('impstransfer');
+            case 'FTP2P': {
+                $state.go('p2ptransfer');
+                break;
+            }
+            case 'FTP2A': {
+                $state.go('p2atransfer');
+                break;
+            }
+            case 'FTP2U': {
+                $state.go('p2utransfer');
                 break;
             }
             case 'TopUp': {
-                $state.go('topup');
+                $state.go('topuprecharge');
                 break;
             }
             case 'BillPay': {
                 $state.go('billpay');
                 break;
-            }           
+            }
         }
     };
 
     $scope.Back = function () {
-        $state.go("dashboard");
+        $state.go("fundtransfer");
     };
 
 }]);
@@ -2239,6 +2444,12 @@ starter.controller("generatemmidCtrl", ["$scope", "$state", "APIUrl", "sessionFa
 
     var deviceId = $cordovaDevice.getUUID();
     var sessionToken = sessionFactory.getSession();
+    $scope.Response = {
+        Mmid: '',
+        ActCode: '',
+        ActCodeDec: '',
+        TransRefNo: ''
+    }
     $scope.request = {
         SessionToken: sessionToken.sessiontoken,
         UserId: sessionToken.userid,
@@ -2246,19 +2457,21 @@ starter.controller("generatemmidCtrl", ["$scope", "$state", "APIUrl", "sessionFa
         MemberId: sessionToken.memberid,
         DepositId: 0,
         AccountType: 0,
+        AccountNumber: null,
         AppId: sessionToken.appid,
         Service: "generatemmid",
-        SelectedOption: { Id: 0, Caption: '', AccountType: 0 },
-        OriginatingChannel: "Mobile",
-        LocalTxnDtTime:new Date(),
-        Stan:"123456",
-        RemitterMobNo:"9846543878",
-        RemitterAccNo:"0141010000000012",
-        ValidationData:"checksum",
-        RemitterName:"Jithin",
-        InstitutionID:"PUCB"
+        SelectedOption: { Id: 0, Caption: '', AccountType: 0, AccountNumber: '', ValidationData: '' },
+        ReqXml: {
+            OriginatingChannel: "Mobile",
+            LocalTxnDtTime: new Date(),
+            Stan: "123456",
+            RemitterMobNo: sessionToken.mobileno,
+            RemitterAccNo: null,
+            ValidationData: null,
+            RemitterName: sessionToken.name,
+            InstitutionID: sessionToken.bankid
+        }
     };
-
     $scope.GetInitialData = function () {
         $scope.ShowLoader = true;
         var url = APIUrl + "Service/GetAccountHeads/";
@@ -2272,42 +2485,44 @@ starter.controller("generatemmidCtrl", ["$scope", "$state", "APIUrl", "sessionFa
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
             alert("An unexpected error occured. Please contact the administrator.");
         });
     }
-
     $scope.GenerateMMID = function () {
-        $scope.request.AcTypeId = $scope.request.SelectedAcHeads.Id;
-        $scope.request.LedgerId = $scope.request.SelectedAcNo.Id;
-        if ($scope.request.DepositId == 0) {
+        $scope.request.AccountType = $scope.request.SelectedOption.AccountType;
+        $scope.request.Id = $scope.request.SelectedOption.Id;
+        $scope.request.ReqXml.RemitterAccNo = $scope.request.AccountNumber = $scope.request.SelectedOption.AccountNumber;
+        $scope.request.ReqXml.ValidationData = $scope.request.SelectedOption.ValidationData;
+        if ($scope.request.Id == 0) {
             alert("Please Select an Ac Type");
             return false;
         }
-        if ($scope.request.LedgerId == 0) {
-            alert("Please Select an Ac Number.");
-            return false;
-        }
+
         url = APIUrl + "Service/GenerateMMID/";
         $scope.ShowLoader = true;
         $http.post(url, $scope.request).then(function (data, status) {
             $scope.ShowLoader = false;
-            if (data.data!=null) {
-                alert(data.data);
+            if (data.data.ResponseCode != "000") {
+                alert(data.data.ResponseMessage);
                 return false;
             }
             else {
-                alert("Faild To Genarate MMID");
+                $scope.Response.Mmid = data.data.XmlData.Mmid;
+                $scope.Response.ActCode = data.data.XmlData.ActCode;
+                $scope.Response.ActCodeDesc = data.data.XmlData.ActCodeDesc;
+                $scope.Response.TransRefNo = data.data.XmlData.TransRefNo;
+                alert("Your MMID for A/c No. " + $scope.request.AccountNumber + " is " + $scope.Response.Mmid)
                 return false;
             }
         }, function errorcallback(error, status) {
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -2315,33 +2530,36 @@ starter.controller("generatemmidCtrl", ["$scope", "$state", "APIUrl", "sessionFa
         });
     }
     $scope.CancelMMID = function () {
-        $scope.request.AcTypeId = $scope.request.SelectedAcHeads.Id;
-        $scope.request.LedgerId = $scope.request.SelectedAcNo.Id;
-        if ($scope.request.DepositId == 0) {
-            alert("Please Select an Ac Type");
-            return false;
-        }
-        if ($scope.request.LedgerId == 0) {
+        $scope.request.Service = "cancelmmid";
+        $scope.request.AccountType = $scope.request.SelectedOption.AccountType;
+        $scope.request.Id = $scope.request.SelectedOption.Id;
+        $scope.request.ReqXml.RemitterAccNo = $scope.request.AccountNumber = $scope.request.SelectedOption.AccountNumber;
+        $scope.request.ReqXml.ValidationData = $scope.request.SelectedOption.ValidationData;
+
+        if ($scope.request.Id == 0) {
             alert("Please Select an Ac Number.");
             return false;
         }
-        url = APIUrl + "Service/GenerateMMID/";
+        url = APIUrl + "Service/CancelMMID/";
         $scope.ShowLoader = true;
         $http.post(url, $scope.request).then(function (data, status) {
             $scope.ShowLoader = false;
-            if (data.data != null) {
-                alert(data.data);
+            if (data.data.ResponseCode != "000") {
+                alert(data.data.ResponseMessage);
                 return false;
             }
             else {
-                alert("Faild To Genarate MMID");
+                $scope.Response.ActCode = data.data.XmlData.ActCode;
+                $scope.Response.ActCodeDesc = data.data.XmlData.ActCodeDesc;
+                $scope.Response.TransRefNo = data.data.XmlData.TransRefNo;
+                alert("Your MMID for A/c No. " + $scope.request.AccountNumber + " is Canceled")
                 return false;
             }
         }, function errorcallback(error, status) {
             $scope.ShowLoader = false;
             if (error.status == 401) {
                 alert("Unauthorized access. Login again.");
-                sessionFactory.setSession(null, null, null, null, null);
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
                 $state.go("login");
                 return false;
             }
@@ -2349,16 +2567,403 @@ starter.controller("generatemmidCtrl", ["$scope", "$state", "APIUrl", "sessionFa
         });
     }
     $scope.Logout = function () {
-        sessionFactory.setSession(null, null, null, null, null);
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
         $state.go("login");
         return false;
     }
     $scope.Back = function () {
-        $state.go("dashboard");
+        $state.go("impsdashboard");
     };
     $scope.GetInitialData();
 
 }]);
 
+starter.controller("impsfundtranferCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$ionicPopup", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $ionicPopup, $cordovaDevice) {
+    $scope.ShowLoader = false;
+    $scope.Username = sessionFactory.getSession().username;
+    var deviceId = $cordovaDevice.getUUID();
+    $scope.FromAccounts = {};
+    $scope.Beneficiaries = {};
+    $scope.TransferModes = {};
+    $scope.IsSentOTP = false;
+    $scope.IsReSendOTP = true;
+    $scope.PaymentType = "";
+    $scope.ReqXml = {
+        MessageType: "",
+        ProcCode: "",
+        OriginatingChannel: "",
+        LocalTxnDtTime: "",
+        Stan: "",
+        RemitterMobNo: "",
+        RemitterAccNo: "",
+        RemitterName: "",
+        BeneMobileNo: "",
+        BeneAccNo: "",
+        BeneMMID: "",
+        BeneIFSC: "",
+        BeneAadharNo: "",
+        TranAmount: "",
+        Remark: "",
+        InstitutionID: ""
+    };
+    $scope.ResXml = {
+        //MessageType: "",
+        //ProcCode: "",
+        //OriginatingChannel: "",
+        //LocalTxnDtTime: "",
+        //Stan: "",
+        //ActCode: "",
+        //ActCodeDec: "",
+        //BeneName: "",
+        //TransRefNo: ""
+    };
+    var sessionToken = sessionFactory.getSession();
+    $scope.request = {
+        SessionToken: sessionToken.sessiontoken,
+        UserId: sessionToken.userid,
+        DeviceId: deviceId,
+        MemberId: sessionToken.memberid,
+        AppId: sessionToken.appid,
+        Amount: 0.00,
+        VerificationMethod: "OTP",
+        Service: "",
+        Nerration: "",
+        Amount: "",
+        SelectedBeneficiary: {
+            Id: 0,
+            BeneficiaryName: "",
+            AccountNumber: "",
+            ConfirmAccountNumber: "",
+            AccountType: 0,
+            BankBranch: "",
+            BankName: "",
+            MaxLimit: 0,
+            IFSC: "",
+            TransferType: "",
+            RequestMode: "",
+            BeneficiaryType: "",
+            Mmid: "",
+            Uid: "",
+            ConfirmMmid: "",
+            MobileNumber: ""
+        },
+        SelectedFromAc: {
+            id: 0,
+            AccountType: 0,
+            AccountNumber: ""
+        },
+        TransferMode: {
+            Type: "IMPS"
+        },
+        ReqXml: {},
+        ResXml: {}
+    };
+    $scope.GetInitialData = function () {
+        $scope.ShowLoader = true;
+        $scope.request.Service = "ImpsTransInit";
+        var url = APIUrl + "Service/GetImpsTransferInitData/";
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            $scope.FromAccounts = data.data.FromAccounts;
+            $scope.Beneficiaries = data.data.Beneficiaries;
+            $scope.TransferModes = [{ Type: "IMPS" }, { Type: "NEFT" }, { Type: "RTGS" }];
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+    $scope.SubmitTransfer = function () {
+        var url = "";
+        $scope.ShowLoader = true;
+        if ($scope.request.Service == "p2p") {
+            url = APIUrl + "Service/P2PRequest/";
+            $scope.ReqXml.ProcCode = "111004";
+        }
+        else if ($scope.request.Service == "p2a") {
+            url = APIUrl + "Service/P2ARequest/";
+            $scope.ReqXml.ProcCode = "111009";
+        }
+        else {
+            url = APIUrl + "Service/P2URequest/";
+            $scope.ReqXml.ProcCode = "111007";
+        }
+        $scope.ReqXml.MessageType = "1200";
+        $scope.ReqXml.OriginatingChannel = "Mobile";
+        $scope.ReqXml.LocalTxnDtTime = new Date();
+        $scope.ReqXml.Stan = "123456";
+        $scope.ReqXml.RemitterMobNo = sessionToken.mobileno;
+        $scope.ReqXml.RemitterAccNo = $scope.request.SelectedFromAc.AccountNumber;
+        $scope.ReqXml.RemitterName = sessionToken.name;
+        $scope.ReqXml.BeneMobileNo = $scope.request.SelectedBeneficiary.MobileNumber;
+        $scope.ReqXml.BeneAccNo = $scope.request.SelectedBeneficiary.AccountNumber;
+        $scope.ReqXml.BeneMMID = $scope.request.SelectedBeneficiary.Mmid;
+        $scope.ReqXml.BeneIFSC = $scope.request.SelectedBeneficiary.IFSC;
+        $scope.ReqXml.BeneAadharNo = $scope.request.SelectedBeneficiary.Uid
+        $scope.ReqXml.TranAmount = $scope.request.Amount;
+        $scope.ReqXml.Remark = $scope.request.Nerration;
+        $scope.ReqXml.InstitutionID = sessionToken.bankid;
+        $scope.request.TransferType = $scope.request.TransferMode.Type;
+        $scope.request.ReqXml = $scope.ReqXml;
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            $scope.IsSentOTP = false;
+            $scope.ResXml = data.data;
+            if ($scope.ResXml.XmlData.ActCodeDesc == "Success") {
+                alert("Fund Transfer Success. Reference No: " + $scope.ResXml.XmlData.TransRefNo);
+            }
+            $state.go("impsdashboard");
+            $scope.ClearAll();
 
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+    $scope.SendOTP = function () {
+        if ($scope.request.SelectedFromAc.Id == null) {
+            alert("Invalid From Account");
+            return false;
+        }
+        if ($scope.request.SelectedBeneficiary.Id == 0) {
+            alert("Invalid Beneficiary");
+            return false;
+        }
+        if ($scope.request.TransferMode.Type == "" && $scope.request.Service == "p2a") {
+            alert("Invalid Transfer Mode");
+            return false;
+        }
+        if ($scope.request.Amount == 0) {
+            alert("Invalid amount");
+            return false;
+        }
+        //if ($scope.request.OTP.trim() == "") {
+        //    alert("Invalid OTP/PIN");
+        //    return false;
+        //}
+        $scope.ShowLoader = true;
+        var url = APIUrl + "Service/SendOTP/";
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            $scope.showPopup();
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+    $scope.Logout = function () {
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
+        $state.go("login");
+        return false;
+    }
+    $scope.SetStatus = function () {
+        if ($scope.request.VerificationMethod == "PIN") {
+            $scope.IsSentOTP = true;
+            $scope.IsReSendOTP = true;
+            $scope.InputType = "password"
+        }
+        else if ($scope.request.VerificationMethod == "OTP") {
+            $scope.IsSentOTP = false;
+            $scope.IsReSendOTP = false;
+            $scope.InputType = "text"
+        }
+    };
+    $scope.ClearAll = function () {
+        var elements = document.getElementsByTagName("input");
+        for (var ii = 0; ii < elements.length; ii++) {
+            if (elements[ii].type == "text" || elements[ii].type == "number") {
+                elements[ii].value = "";
+            }
+        }
+    };
+    $scope.Back = function () {
+        $state.go("impsdashboard");
+    };
+    $scope.showPopup = function () {
+        $scope.data = {};
+        var myPopup = $ionicPopup.show({
+            template: '<input type="password" ng-model="data.otp">',
+            title: 'Enter OTP',
+            subTitle: 'Please enter OTP received on your mobile.',
+            scope: $scope,
+            buttons: [
+              { text: 'Cancel' },
+              {
+                  text: '<b>Ok</b>',
+                  type: 'button-positive',
+                  onTap: function (e) {
+                      if (!$scope.data.otp) {
+                          e.preventDefault();
+                      } else {
+                          return $scope.data.otp;
+                      }
+                  }
+              }
+            ]
+        });
+
+        myPopup.then(function (res) {
+            $scope.request.OTP = res;
+            $scope.IsSentOTP = true;
+            $scope.SubmitTransfer();
+        });
+
+        $timeout(function () {
+            myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 200000);
+    };
+    $scope.GetInitialData();
+}]);
+
+starter.controller("topuprechargeCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice) {
+    $scope.ShowLoader = false;
+    $scope.Username = sessionFactory.getSession().username;
+    var deviceId = $cordovaDevice.getUUID();
+    $scope.FromAccounts = {};
+    $scope.ToAccounts = {};
+    $scope.IsSentOTP = false;
+    $scope.IsReSendOTP = true;
+    $scope.PaymentType = "";
+    var sessionToken = sessionFactory.getSession();
+    $scope.beneDetails = {
+        Name: "",
+        Mobile: "",
+        AcNo: ""
+    }
+    $scope.request = {
+        SessionToken: sessionToken.sessiontoken,
+        UserId: sessionToken.userid,
+        DeviceId: deviceId,
+        MemberId: sessionToken.memberid,
+        AppId: sessionToken.appid,
+        Amount: 0.00,
+        VerificationMethod: "OTP",
+        Service: ""
+    };
+
+    $scope.GetInitialData = function () {
+        $scope.request.TransferType = 'OtherBank';
+        $scope.ShowLoader = true;
+        var url = APIUrl + "Service/GetTransferDetails/";
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            $scope.FromAccounts = data.data.FromAccounts;
+            $scope.ToAccounts = data.data.ToAccounts;
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+
+    $scope.SubmitTransfer = function () {
+        $scope.ShowLoader = true;
+        $scope.request.TransferType = $scope.PaymentType;
+        var url = APIUrl + "Service/SubmitTransfer/";
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            $scope.IsSentOTP = false;
+            alert(data.data);
+            $state.go("impsdashboard");
+            $scope.ClearAll();
+
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+
+    $scope.SendOTP = function () {
+        if ($scope.request.Amount == 0) {
+            alert("Invalid amount");
+            return false;
+        }
+        if ($scope.request.TransferType == "" || $scope.request.TransferType == null) {
+            alert("Invalid Transfer Type");
+            return false;
+        }
+        if ($scope.request.FromAccount == null) {
+            alert("Invalid From Account");
+            return false;
+        }
+        if ($scope.request.ToAccount == null) {
+            alert("Invalid Beneficiary Account");
+            return false;
+        }
+        $scope.ShowLoader = true;
+        var url = APIUrl + "Service/SendOTP/";
+        $http.post(url, $scope.request).then(function (data, status) {
+            $scope.ShowLoader = false;
+            $scope.showPopup();
+        }, function errorcallback(error, status) {
+            $scope.ShowLoader = false;
+            if (error.status == 401) {
+                alert("Unauthorized access. Login again.");
+                sessionFactory.setSession(null, null, null, null, null, null, null, null);
+                $state.go("login");
+                return false;
+            }
+            alert("An unexpected error occured. Please contact the administrator.");
+        });
+    };
+    $scope.Logout = function () {
+        sessionFactory.setSession(null, null, null, null, null, null, null, null);
+        $state.go("login");
+        return false;
+    }
+
+    $scope.SetStatus = function () {
+        if ($scope.request.VerificationMethod == "PIN") {
+            $scope.IsSentOTP = true;
+            $scope.IsReSendOTP = true;
+            $scope.InputType = "password"
+        }
+        else if ($scope.request.VerificationMethod == "OTP") {
+            $scope.IsSentOTP = false;
+            $scope.IsReSendOTP = false;
+            $scope.InputType = "text"
+        }
+    };
+    $scope.ClearAll = function () {
+        var elements = document.getElementsByTagName("input");
+        for (var ii = 0; ii < elements.length; ii++) {
+            if (elements[ii].type == "text" || elements[ii].type == "number") {
+                elements[ii].value = "";
+            }
+        }
+    };
+    $scope.Back = function () {
+        $state.go("fundtransfer");
+    };
+
+    $scope.GetInitialData();
+}]);
 

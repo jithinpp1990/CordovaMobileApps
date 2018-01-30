@@ -1,13 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
-        "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
-        "clobbers": [
-            "cordova.plugins.barcodeScanner"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-printer/www/printer.js",
         "id": "cordova-plugin-printer.Printer",
         "clobbers": [
@@ -258,6 +251,13 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+        "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+        "clobbers": [
+            "cordova.plugins.barcodeScanner"
+        ]
+    },
+    {
         "file": "plugins/uk.co.workingedge.phonegap.plugin.launchnavigator/www/common.js",
         "id": "uk.co.workingedge.phonegap.plugin.launchnavigator.Common",
         "clobbers": [
@@ -275,10 +275,9 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-compat": "1.0.0",
-    "phonegap-plugin-barcodescanner": "6.0.8",
     "cordova-plugin-printer": "0.7.4-dev",
     "cordova-plugin-actionsheet": "2.2.2",
+    "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-console": "1.0.2",
     "cordova-plugin-device": "1.1.1",
     "cordova-plugin-file": "4.2.0",
@@ -287,6 +286,7 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.1.2",
     "cordova-plugin-whitelist": "1.2.1",
     "ionic-plugin-keyboard": "1.0.9",
+    "phonegap-plugin-barcodescanner": "6.0.5-dev",
     "uk.co.workingedge.phonegap.plugin.launchnavigator": "3.1.1"
 };
 // BOTTOM OF METADATA

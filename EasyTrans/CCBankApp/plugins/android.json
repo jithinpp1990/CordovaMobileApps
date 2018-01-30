@@ -7,13 +7,13 @@
         "files": {}
     },
     "installed_plugins": {
-        "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
-        },
         "cordova-plugin-printer": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         },
         "cordova-plugin-actionsheet": {
+            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
+        },
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         },
         "cordova-plugin-console": {
@@ -40,13 +40,12 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         },
+        "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
+        },
         "uk.co.workingedge.phonegap.plugin.launchnavigator": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         }
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
-        }
-    }
+    "dependent_plugins": {}
 }

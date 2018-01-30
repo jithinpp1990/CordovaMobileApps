@@ -1,17 +1,15 @@
-﻿<link href="css/chequebookstyle.css" rel="stylesheet">
+﻿<link href="css/accountstatement.css" rel="stylesheet">
 <ion-view class="outer-layout" ng-controller="quickbalanceCtrl">
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
             <ion-spinner icon="android"></ion-spinner>
         </div>
     </div>
-    <ion-content class="padding">
-        <div class="fixed-top-home" ng-click="Back()">
-            <div class="row">
-                <img class="img-header-home" src="img/Banner.png" />
-            </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
         </div>
-        <div class="row">
+        <div class="row" style="margin:2px;padding:1px">
             <div class="col-60 wel-user">
                 <p>Welcome, {{Username}}</p>
             </div>
@@ -19,16 +17,19 @@
                 <p><a href="#/" ng-click="Logout()">Logout</a></p>
             </div>
         </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
+        <span>Quick A/C Balance</span>
         <div class="fixed-mid-home">
-            <div class="contentstext">
-                <label class="item item-input item-stacked-label" style="text-align:left;">
+            <div class="boxpanel">
+                <div class="contentstext">
                     <span class="input-label"> Select Your A/C : </span>
                     <select class="select-pub" ng-model="request.SelectedOption" ng-options="o.Caption for o in options"></select><br />
-                </label>
+                </div>
             </div>
             <div class="row">
                 <button class="button button-block button-pub" ng-click="RequestBalance()">Check Balance</button>
-            </div>           
+            </div>
         </div>
     </ion-content>
     <div class="fixed-bottom">

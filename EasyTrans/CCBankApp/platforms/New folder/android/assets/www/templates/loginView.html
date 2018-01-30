@@ -1,13 +1,13 @@
 
 <link href="css/style.css" rel="stylesheet">
-<ion-view class="outer-layout" view-title="Login" name="login-view" ng-controller="loginCtrl" style="background-image:url(img/bmg2.png);background-repeat:repeat">
+<ion-view class="outer-layout" view-title="Login" name="login-view" ng-controller="loginCtrl" >
 
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
             <ion-spinner icon="android"></ion-spinner>
         </div>
     </div>
-    <ion-content scroll="true" class="padding" style="margin-bottom:50px !important">
+    <ion-content scroll="true"  class="padding" style="margin-bottom:50px !important">
 
         <div class="fixed-top">
             <div class="row">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="fixed-mid">
+        <div class="fixed-mid-home">
             <div class="list list-inset theme-black">
                 <label class="item item-input input-pub">
                     <input id="user" ng-model="model.username" type="text" placeholder="Username">
@@ -28,25 +28,11 @@
                 </label>
             </div>
             <button class="button button-block button-pub" ng-click="Login()">Login</button>
-        </div>
-
-        <!--<ion-slide-box does-continue="true" auto-play="true" slide-interval="500" show-pager="true">
-            <ion-slide>
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Solid_blue.svg/2000px-Solid_blue.svg.png" />
-                </div>
-            </ion-slide>
-            <ion-slide>
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/ICS_Quebec.svg/2000px-ICS_Quebec.svg.png" />
-                </div>
-            </ion-slide>
-            <ion-slide>
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Red_flag.svg/2000px-Red_flag.svg.png" />
-                </div>
-            </ion-slide>
-        </ion-slide-box>-->
+            <div style="margin-top:5px">
+                <a style="float: left;" ui-sref="verifycustomer"><b>REGISTER</b></a>
+                <a style="float: right;" ui-sref="verifycustomer"><b>Forgot Password</b></a>
+            </div>
+        </div>        
 
     </ion-content>
 

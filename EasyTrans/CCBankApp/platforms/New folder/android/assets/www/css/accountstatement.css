@@ -1,4 +1,16 @@
-﻿.img-header-home {
+﻿.middlespace{
+   margin-bottom: 100px;
+    margin-top: 100px;
+    height: 78% !important;
+}
+.boxpanel {
+        background-color: #dfd9f9;
+        /*padding: 0.01em 16px;*/
+        margin: 8px 0;
+        padding: 3px;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+    }
+.img-header-home {
     position: relative;
     top: 0%;
     left: 0px;
@@ -7,8 +19,6 @@
     min-height: 60px;
     max-height: 60px;
 }
-
-
 .userdet{
      width: 100%;
     max-height: 30px;
@@ -17,7 +27,6 @@
 .theme-black {
     background-color: #ffffff;
 }
-
 .outer-layout {
     height: 100%;
     margin: 0px;
@@ -26,7 +35,6 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-
 .title {
     text-align: center;
     color: #fff;
@@ -42,7 +50,6 @@
     min-height: 47px;
     background: linear-gradient(to right, #5d75e9, black 40%);
 }
-
 .fixed-top-home {
     position: relative;
     width: 100%;
@@ -53,16 +60,13 @@
     background: -moz-linear-gradient(right,#5d75e9, black); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to right, #5d75e9 30%, black 200% ); /* Standard syntax */
 }
-
 .fixed-mid-home {
     margin: auto;
     width: 100%;
     text-align: center;
     margin-top: 20px;
-    height: 100%;
+    height: 110%;
 }
-
-
 .fixed-bottom {
     position: absolute;
     bottom: 0;
@@ -70,20 +74,16 @@
     height: 40px;
     text-align: center;
 }
-
 .list-pub {
     border: none;
     background-color: #5d75e9;
     padding-left: 10px;
     height: 25px;
 }
-
 .list-shell {
-    background-color: #ffffff;
     margin-left: 5px;
     margin-right: 7px;
 }
-
 .button-pub {
     border-radius: 5px;
     border-width: 2px;
@@ -92,13 +92,10 @@
     font-weight: bold;
     width:100%
 }
-
-
     .button-pub:hover {
         color: #fff;
         opacity: 0.7;
     }
-
 .button-row {
     border-radius: 5px;
     border-width: 2px;
@@ -112,7 +109,6 @@
         color: #fff;
         opacity: 0.7;
     }
-
 .label-pub {
     font-family: Helvetica, Arial, sans-serif;
     margin-left: 0px;
@@ -130,45 +126,51 @@
     font-size: 16px;
     width: 100%;
 }
-
 .input-pub {
-    border-radius: 0px;
-    border-width: 0px;
-    background-color: #011219;
+    background-color: #f9fafb;
     margin-bottom: 10px;
     color: white;
-    min-width: 190px;
+    min-width: 100px;
+    border: 2px solid #7589e8;
+    /*box-shadow: 5px 5px 5px grey;*/
+    width:95%;
+    margin-left: 8px
 }
-
+.input-label {
+    display: table;
+    padding: 7px 10px 7px 0px;
+    max-width: 200px;
+    width: 100%; 
+    font-size: 16px;
+    margin-left: 5px;
+    text-align: left;
+}
 .select-pub {
     width: 95%;
     color: #1e1e1e;
     text-align: left;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 20px;
-    margin-top: -5px;
-    margin-bottom: -5px;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 5px;
     border: 2px solid #7589e8;
-    box-shadow: 5px 5px 5px grey;
+    height: 27px;
 }
-
+ionic.css:7493
 .select-label {
     text-align: left;
     color: white;
 
 }
-
-
 .item-select select {
     background-color: #011219;
     color: white;
 }
-
-#   , #datepicker2 {
+#datepicker1, #datepicker2 {
     padding: 5px;
     color: #023b9c;
     width: 95%;
-    box-shadow: 5px 5px 5px grey;
+    /*box-shadow: 5px 5px 5px grey;*/
 }
 /*.overflow-scroll {
     overflow: hidden;
@@ -177,9 +179,6 @@
     background-color: #5d75e9;
     color: white;
 }
-
-
-
 div.spinner {
     margin: auto;
     position: absolute;
@@ -191,12 +190,10 @@ div.spinner {
     text-align: center;
     z-index: 1000;
 }
-
 .spinner svg {
     width: 19% !important;
     height: 85px !important;
 }
-
 .block {
     height: 100%;
     width: 100%;
@@ -205,11 +202,9 @@ div.spinner {
     z-index: 999;
     opacity: 0.2;
 }
-
 .spinner-android {
     stroke: white;
 }
-
 .wel-user {
     margin-top: 0px;
     margin-left: -5px;
@@ -220,56 +215,44 @@ div.spinner {
     font-weight: bold;
     height: 20px;
 }
-
 .home-logout {
     margin-top: -5px;
     margin-right: -5px;
     text-align: right;
     height: 30px;
 }
-
-
 .header .col {
     background-color: #5d75e9;
     color: white;
 }
-
 .col {
     /*border: solid 1px grey;*/
     border-bottom-style: none;
     border-right-style: none;
 }
-
     .col:last-child {
-        border-right: solid 1px grey;
+        border-right: none;
     }
-
 .row:last-child .col {
-    border-bottom: solid 1px grey;
+    border-bottom: none;
 }
-
 .accountDetails {
-    background-color: #5d75e9;
-    color: white !important;
+       background-color: rgba(252, 255, 227, 0.83);
+    color: black !important;
 }
-
 .leftAlign {
     text-align: left;
 }
-
 .rightAlign {
     text-align: right;
 }
-
 .tabs-positive > .tabs {
     background-color: #5d75e9 !important;
 }
-
 .item-radio input:checked + .radio-content .item-content {
     background: #5d75e9;
     background-color: #5d75e9;
 }
-
 
 /* over ridden style of ionic*/
 
@@ -279,12 +262,10 @@ div.spinner {
   padding-bottom: 1px;
   padding-left: 0;
   margin-bottom: 4px; }
-
 .list:last-child {
   margin-bottom: 0px; }
   .list:last-child.card {
     margin-bottom: 40px; }
-
   .row1{
     width: 100%;
     max-height: 40px;
@@ -299,8 +280,7 @@ div.spinner {
   font-size: 14px;
   font-weight: bold;
 }
-
- /*---------------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
  .contentstext{
     margin-top:3px;
     margin-bottom:3px;

@@ -31,7 +31,7 @@ starter.controller("preloginCtrl", ["$scope", "$state", "APIUrl", "sessionFactor
     $scope.GetImages();
 }]);
 
-starter.controller("loginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", "$ionicSlideBoxDelegate", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice, $ionicSlideBoxDelegate) {
+starter.controller("loginCtrl", ["$scope", "$state", "APIUrl", "sessionFactory", "$http", "$cordovaDevice", "$ionicSlideBoxDelegate","$ionicPopup", function ($scope, $state, APIUrl, sessionFactory, $http, $cordovaDevice, $ionicSlideBoxDelegate,$ionicPopup) {
     $scope.model = {
         username: '',
         password: ''
@@ -116,7 +116,6 @@ starter.controller("branchdetailCtrl", ["$scope", "$state", "APIUrl", "sessionFa
     $scope.BranchList = {};
 
     $scope.launchNavigator = function (latitude, longitude) {
-        //var destination = [9.948294, 76.347777];
         var destination = [latitude, longitude];
         console.log(latitude + " : " + longitude);
         var start = "Peoples Urban Co-operative Bank";

@@ -1,17 +1,15 @@
-﻿<link href="css/accountstatement.css" rel="stylesheet">
+﻿<link href="css/beneficiary.css" rel="stylesheet">
 <ion-view class="outer-layout" ng-controller="ownaccounttransferCtrl">
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
             <ion-spinner icon="android"></ion-spinner>
         </div>
     </div>
-    <ion-content class="padding" style="margin-bottom:50px !important">
-        <div class="fixed-top-home" ng-click="Back()">
-            <div class="row">
-                <img class="img-header-home" src="img/Banner.png" />
-            </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
         </div>
-        <div class="row">
+        <div class="row" style="margin:2px;padding:1px">
             <div class="col-60 wel-user">
                 <p>Welcome, {{Username}}</p>
             </div>
@@ -19,51 +17,43 @@
                 <p><a href="#/" ng-click="Logout()">Logout</a></p>
             </div>
         </div>
-        <div class="fixed-mid">
-            <div class="contentstext">
-                <label class="item item-input item-stacked-label" style="text-align:left;">
-                    <span class="input-label"> Select Your A/C : </span>
-                    <select class="select-pub" ng-model="request.FromAccount" ng-options="o.Caption for o in FromAccounts"></select>
-                </label>
-            </div>
-            <div class="contentstext">
-                <label class="item item-input item-stacked-label" style="text-align:left;">
-                    <span class="input-label"> Select Payee A/C : </span>
-                    <select class="select-pub" ng-model="request.ToAccount" ng-options="o.BeneficiaryName+' - '+o.AccountNumber for o in ToAccounts"></select>
-                </label>
-            </div>            
-            <div class="card" ng-show="request.ToAccount.AccountNumber> 0">
-                <div class="item item-divider item-text-wrap accountDetails">
-                   A/C No : {{request.ToAccount.AccountNumber}}<br />
-                   A/C Type :  {{request.ToAccount.AccountType}} <br />
-                   Bank : {{request.ToAccount.BankName}}<br />
-                   Branch : {{request.ToAccount.BankBranch}}<br/>
-                   Max Limit : ₹ &nbsp; {{request.ToAccount.MaxLimit}}
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
+        <span>Intra-Bank Fund Transfer</span>
+        <div class="fixed-mid-home">
+            <div class="boxpanel">
+                <span class="input-label"> Select Your A/C : </span>
+                <select class="select-pub" ng-model="request.FromAccount" ng-options="o.Caption for o in FromAccounts"></select>
+
+                <span class="input-label"> Select Payee A/C : </span>
+                <select class="select-pub" ng-model="request.ToAccount" ng-options="o.BeneficiaryName+' - '+o.AccountNumber for o in ToAccounts"></select>
+
+                <div class="boxpanel" ng-show="request.ToAccount.AccountNumber> 0">
+                    <span>Beneficiary Details</span>
+                    <span>A/C No       : {{request.ToAccount.AccountNumber}}<br /></span>
+                    <span>A/C Type     : {{request.ToAccount.AccountType}} <br /></span>
+                    <span>Bank         : {{request.ToAccount.BankName}}<br /></span>
+                    <span>Branch       : {{request.ToAccount.BankBranch}}<br /></span>
+                    <span> Max Limit   : ₹ &nbsp; {{request.ToAccount.MaxLimit}}</span>
                 </div>
-            </div>
-            <div class="contentstext">
-                <label class="item item-input item-stacked-label" style="text-align:left;">
-                    <span class="input-label"> Amount Rs. : </span>
-                    <input  id="Amount" type="number" ng-model="request.Amount" />
-                </label>
-            </div>      
-           
-            <div class="row">
-                <div style="margin-left:30px;font-size:20px;float:left">
-                    Use OTP :
-                    <input style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='OTP'" ng-true-value="'OTP'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+
+                <span class="input-label"> Amount Rs. : </span>
+                <input class="input-pub" id="Amount" type="number" ng-model="request.Amount" />
+
+                <div class="row">
+                    <div style="margin-left:30px;font-size:20px;float:left">
+                        Use OTP :
+                        <input  class="input-pub" style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='OTP'" ng-true-value="'OTP'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+                    </div>
+                    <div style="margin-left:10px;font-size:20px;float:right">
+                        Use PIN :
+                        <input class="input-pub" style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='PIN'" ng-true-value="'PIN'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
+                    </div>
                 </div>
-                <div style="margin-left:10px;font-size:20px;float:right">
-                    Use PIN :
-                    <input style="width:20px;height:20px" type="checkbox" ng-checked="request.VerificationMethod=='PIN'" ng-true-value="'PIN'" ng-model="request.VerificationMethod" ng-change="SetStatus()">
-                </div>
+
+                <span class="input-label"> OTP/PIN : </span>
+                <input class="input-pub" id="otp" type="password" ng-model="request.OTP" />
             </div>
-            <div class="contentstext" ng-show="IsSentOTP">
-                <label class="item item-input item-stacked-label" style="text-align:left;">
-                    <span class="input-label"> OTP/PIN : </span>
-                    <input id="otp" type="password" ng-model="request.OTP" />
-                </label>
-            </div>      
             <div>
                 <div class="row" ng-hide="IsSentOTP">
                     <button class="button button-block button-pub" style="background-color:saddlebrown !important" ng-click="SendOTP()">Send OTP</button>

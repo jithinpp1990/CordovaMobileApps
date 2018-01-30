@@ -1,25 +1,15 @@
-﻿<link href="css/chequebookstyle.css" rel="stylesheet">
-<style>
-    .boxpanel {
-        background-color: #f1f1f1;
-        /*padding: 0.01em 16px;*/
-        margin: 8px 0;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
-    }
-</style>
+﻿<link href="css/beneficiary.css" rel="stylesheet">
 <ion-view class="outer-layout" ng-controller="generatemmidCtrl">
     <div id="Loader" class="block" ng-show="ShowLoader">
         <div class="spinner">
             <ion-spinner icon="android"></ion-spinner>
         </div>
     </div>
-    <ion-content class="padding">
-        <div class="fixed-top-home" ng-click="Back()">
-            <div class="row">
-                <img class="img-header-home" src="img/Banner.png" />
-            </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
         </div>
-        <div class="row">
+        <div class="row" style="margin:2px;padding:1px">
             <div class="col-60 wel-user">
                 <p>Welcome, {{Username}}</p>
             </div>
@@ -27,6 +17,9 @@
                 <p><a href="#/" ng-click="Logout()">Logout</a></p>
             </div>
         </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
+        <div class="row"><span>Generate MMID</span></div>
         <div class="fixed-mid-home">
             <div class="boxpanel">
                 <div class="list list-shell">

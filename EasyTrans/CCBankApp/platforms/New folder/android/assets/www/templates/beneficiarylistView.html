@@ -5,13 +5,11 @@
             <ion-spinner icon="android"></ion-spinner>
         </div>
     </div>
-    <ion-content class="padding" style="margin-bottom:50px !important">
-        <div class="fixed-top-home" ng-click="Back()">
-            <div class="row">
-                <img class="img-header-home" src="img/Banner.png" />
-            </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
         </div>
-        <div class="row">
+        <div class="row" style="margin:2px;padding:1px">
             <div class="col-60 wel-user">
                 <p>Welcome, {{Username}}</p>
             </div>
@@ -19,6 +17,8 @@
                 <p><a href="#/" ng-click="Logout()">Logout</a></p>
             </div>
         </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">
         <br />
         <div class="row header" style="background-color:white;">
             <div class="col"><b>Ben Name</b></div>

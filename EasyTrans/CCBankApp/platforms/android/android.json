@@ -9,10 +9,6 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Printer\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.printer.Printer\" /></feature>",
                             "count": 1
                         },
@@ -49,6 +45,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"LaunchNavigator\"><param name=\"android-package\" value=\"uk.co.workingedge.phonegap.plugin.LaunchNavigator\" /></feature>",
                             "count": 1
                         }
@@ -59,35 +59,29 @@
                 "parents": {
                     "/manifest/application": [
                         {
-                            "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" android:windowSoftInputMode=\"stateAlwaysHidden\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<activity android:label=\"Share\" android:name=\"com.google.zxing.client.android.encode.EncodeActivity\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<activity android:exported=\"false\" android:label=\"Printer\" android:name=\"de.appplant.cordova.plugin.printer.ui.SelectPrinterActivity\"></activity>",
                             "count": 1
                         },
                         {
                             "xml": "<activity android:configChanges=\"orientation|keyboardHidden|screenSize\" android:name=\"com.microsoft.aad.adal.AuthenticationActivity\"></activity>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" android:windowSoftInputMode=\"stateAlwaysHidden\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"Share\" android:name=\"com.google.zxing.client.android.encode.EncodeActivity\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 2
                         }
                     ],
                     "/manifest": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
-                            "count": 1
-                        },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
                             "count": 1
@@ -107,12 +101,18 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.USE_CREDENTIALS\" />",
                             "count": 1
-                        }
-                    ],
-                    "/*": [
+                        },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 2
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -120,16 +120,13 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
-        },
-        "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
-        },
         "cordova-plugin-printer": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         },
         "cordova-plugin-actionsheet": {
+            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
+        },
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         },
         "cordova-plugin-console": {
@@ -156,19 +153,15 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         },
+        "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "com.ionicframework.ccpetapp"
+        },
         "uk.co.workingedge.phonegap.plugin.launchnavigator": {
             "PACKAGE_NAME": "com.ionicframework.ccpetapp"
         }
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
-            "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
-            "clobbers": [
-                "cordova.plugins.barcodeScanner"
-            ]
-        },
         {
             "file": "plugins/cordova-plugin-printer/www/printer.js",
             "id": "cordova-plugin-printer.Printer",
@@ -420,6 +413,13 @@
             "runs": true
         },
         {
+            "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+            "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+            "clobbers": [
+                "cordova.plugins.barcodeScanner"
+            ]
+        },
+        {
             "file": "plugins/uk.co.workingedge.phonegap.plugin.launchnavigator/www/common.js",
             "id": "uk.co.workingedge.phonegap.plugin.launchnavigator.Common",
             "clobbers": [
@@ -435,10 +435,9 @@
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-compat": "1.0.0",
-        "phonegap-plugin-barcodescanner": "6.0.8",
         "cordova-plugin-printer": "0.7.4-dev",
         "cordova-plugin-actionsheet": "2.2.2",
+        "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-console": "1.0.2",
         "cordova-plugin-device": "1.1.1",
         "cordova-plugin-file": "4.2.0",
@@ -447,6 +446,7 @@
         "cordova-plugin-statusbar": "2.1.2",
         "cordova-plugin-whitelist": "1.2.1",
         "ionic-plugin-keyboard": "1.0.9",
+        "phonegap-plugin-barcodescanner": "6.0.5-dev",
         "uk.co.workingedge.phonegap.plugin.launchnavigator": "3.1.1"
     }
 }

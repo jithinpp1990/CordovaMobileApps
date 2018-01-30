@@ -86,8 +86,8 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "phonegap-plugin-barcodescanner/ccpetapp-barcodescanner.gradle"
 apply from: "cordova-plugin-ms-adal/ccpetapp-adal.gradle"
+apply from: "phonegap-plugin-barcodescanner/ccpetapp-barcodescanner.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()

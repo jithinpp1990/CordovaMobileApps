@@ -1,0 +1,101 @@
+﻿<link href="css/beneficiary.css" rel="stylesheet">
+<ion-view class="outer-layout" ng-controller="addbeneficiaryCtrl">
+    <div id="Loader" class="block" ng-show="ShowLoader">
+        <div class="spinner">
+            <ion-spinner icon="android"></ion-spinner>
+        </div>
+    </div>
+    <div class="padding" style="margin-bottom: 10px;">
+        <div class="row fixed-top-home">
+            <img class="img-header-home" src="img/Banner.png" />
+        </div>
+        <div class="row" style="margin:2px;padding:1px">
+            <div class="col-60 wel-user">
+                <p>Welcome, {{Username}}</p>
+            </div>
+            <div class="col home-logout">
+                <p><a href="#/" ng-click="Logout()">Logout</a></p>
+            </div>
+        </div>
+    </div>
+    <ion-content class="padding scroll-content ionic-scroll overflow-scroll middlespace">        
+        <div class="fixed-mid-home" style="margin-bottom: 50px;" ng-init="request.BeneficiaryType='Inter'">
+            <span>Add New Inter Bank Benificiary </span>
+            <div class="boxpanel">
+                <div>
+                    <span class="input-label">Beneficiary name : </span>
+                    <input class="input-pub" id="BeneficiaryName" ng-model="request.BeneficiaryName" type="text" placeholder="Beneficiary name">
+                </div>
+                <div>
+                    <span class="input-label">Account Number : </span>
+                    <input class="input-pub" id="AccountNumber" ng-model="request.AccountNumber" type="text" placeholder="Account number">
+                </div>
+                <div>
+                    <span class="input-label">Confirm A/C Number : </span>
+                    <input class="input-pub" id="ConfirmAccountNumber" ng-model="request.ConfirmAccountNumber" type="text" placeholder="Confirm Account number">
+                </div>
+                <div>
+                    <span class="input-label">Address Line 1 : </span>
+                    <input class="input-pub" id="AddressLine1" ng-model="request.AddressLine1" type="text" placeholder="Door no, Street Name,">
+                </div>
+                <div>
+                    <span class="input-label">Address Line 2 : </span>
+                    <input class="input-pub" id="AddressLine2" ng-model="request.AddressLine2" type="text" placeholder="Locality,City">
+                </div>
+                <div>
+                    <span class="input-label">Address Line 3 : </span>
+                    <input class="input-pub" id="AddressLine3" ng-model="request.AddressLine3" type="text" placeholder="State, PIN">
+                </div>
+                <div>
+                    <span class="input-label">Transaction Limit : </span>
+                    <input class="input-pub" id="MaxLimit" value="{{request.MaxLimit}}" ng-model="request.MaxLimit" type="number" placeholder="State, PIN">
+                </div>
+                <div>
+                    <div>
+                        <span class="input-label"> IFSC </span>
+                        <div class="row">
+                            <input class="input-pub" id="IFSC" ng-model="request.IFSC" type="text" placeholder="IFSC">
+                            <button class="buttonsmall button-block button-pub" style="background-color:#718484!important;margin-top: 0px;" ng-click="ValidateIFSC()">Validate </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list list-inset" ng-show="request.BankName.length > 0">
+                    <div class="item" style="background-color:#A0253A;color:white !important;">
+                        <h2><b style="color:white;">{{request.BankName}}</b></h2>
+                        <p style="color:black;font-weight:100">Branch name</p>
+                    </div>
+                    <div class="item" style="background-color:#A0253A;color:white !important;">
+                        <h2><b style="color:white;">{{request.BankBranch}}</b></h2>
+                        <p style="color:black;font-weight:100">Branch name</p>
+                    </div>
+                </div>
+            </div>
+                <div class="row">
+                    <button class="button button-block button-pub" style="background-color:limegreen !important" ng-click="SendOTP()">Submit</button>
+                </div>
+           
+        </div>
+    </ion-content>
+    <div class="fixed-bottom">
+        <div class="tabs-icon-top tabs-positive" style="background-color:#5d75e9;">
+            <div class="tabs">
+                <a class="tab-item " ng-click="Back()" style="border-color:#5d75e9;">
+                    <i class="icon ion-arrow-left-a" style="color:white;"></i>
+                    Back
+                </a>
+                <a class="tab-item active" ui-sref="dashboard" style="border-color:#5d75e9;">
+                    <i class="icon ion-home" style="color:white;"></i>
+                    Home
+                </a>
+                <a class="tab-item" ui-sref="branchdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-ios-location" style="color:white;"></i>
+                    Branch details
+                </a>
+                <a class="tab-item" ui-sref="managementdetail" style="border-color:#5d75e9;">
+                    <i class="icon ion-android-contacts" style="color:white;"></i>
+                    Contacts
+                </a>
+            </div>
+        </div>
+    </div>
+</ion-view>

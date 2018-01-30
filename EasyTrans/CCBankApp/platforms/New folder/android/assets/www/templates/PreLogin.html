@@ -6,7 +6,8 @@
                 <img class="img-header-home" src="img/Banner.png" />
             </div>
         </div>
-        <div class="fixed-mid" >
+        <div class="fixed-mid-home" >
+           
             <div style="max-height:500px;max-width:600px !important">
                 <ion-slide-box does-continue="true" auto-play="true" slide-interval="1500" show-pager="false" ng-if="ImageModelList.length">
                     <ion-slide ng-repeat="imageModel in ImageModelList" ng-init="updateSlider()">
@@ -16,15 +17,10 @@
                 <br />
             </div>
         </div>
-
-
     </ion-content>
-    <div class="fixed-bottom-pre-login">
-      <!-- <div class="row">
-            <button class="button button-block button-row" ng-click="Register()">Register</button>
-            <button class="button button-block button-row" ng-click="Login()">Login</button>
-        </div>-->
-        <button class="button button-block button-row" ng-click="Register()">Register</button>
-        <button class="button button-block button-row" ng-click="Login()">Login</button>
+    <div class="fixed-bottom-pre-login">     
+        <button class="button button-block button-pub" ng-click="Register()">Register</button>
+        <button class="button button-block button-pub" ng-click="Login()">Login</button>
     </div>
 </ion-view>
+
